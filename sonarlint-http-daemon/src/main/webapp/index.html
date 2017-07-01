@@ -40,9 +40,29 @@
         #input {
             position: fixed;
             top: 123px;
-            left: 420px;
+            width: 600px;
+            left: 30px;
             bottom: 30px;
-            right: 30px;
+            background: white;
+            color: black;
+            overflow: auto;
+            border: none;
+
+            font-family: Consolas,Liberation Mono,Menlo,Courier,monospace;
+            font-size: 12px;
+            line-height: 18px;
+            color: #666;
+
+            padding: 10px;
+            white-space: pre;
+        }
+
+        #output {
+            position: fixed;
+            top: 123px;
+            left: 670px;
+            bottom: 30px;
+            right: 420px;
             background: white;
             color: black;
             overflow: auto;
@@ -53,6 +73,21 @@
             color: #666;
 
             padding: 10px;
+            white-space: pre;
+        }
+
+        #result {
+          position: fixed;
+          top: 123px;
+          width: 350px;
+          right: 30px;
+          bottom: 30px;
+
+          padding: 10px 10px 15px 10px;
+          background: #f3f3f3;
+          color: black;
+          overflow: auto;
+          transition: opacity 0.3s;
         }
 
         select {
@@ -84,90 +119,6 @@
         }
     </style>
     <script>
-    // https://stackoverflow.com/a/13950376/476791
-        var saveSelection, restoreSelection;
-
-if (window.getSelection && document.createRange) {
-    saveSelection = function(containerEl) {
-        var range = window.getSelection().getRangeAt(0);
-        var preSelectionRange = range.cloneRange();
-        preSelectionRange.selectNodeContents(containerEl);
-        preSelectionRange.setEnd(range.startContainer, range.startOffset);
-        var start = preSelectionRange.toString().length;
-
-        return {
-            start: start,
-            end: start + range.toString().length
-        };
-    };
-
-    restoreSelection = function(containerEl, savedSel) {
-        var charIndex = 0, range = document.createRange();
-        range.setStart(containerEl, 0);
-        range.collapse(true);
-        var nodeStack = [containerEl], node, foundStart = false, stop = false;
-
-        while (!stop && (node = nodeStack.pop())) {
-            if (node.nodeType == 3) {
-                var nextCharIndex = charIndex + node.length;
-                if (!foundStart && savedSel.start >= charIndex && savedSel.start <= nextCharIndex) {
-                    range.setStart(node, savedSel.start - charIndex);
-                    foundStart = true;
-                }
-                if (foundStart && savedSel.end >= charIndex && savedSel.end <= nextCharIndex) {
-                    range.setEnd(node, savedSel.end - charIndex);
-                    stop = true;
-                }
-                charIndex = nextCharIndex;
-            } else {
-                var i = node.childNodes.length;
-                while (i--) {
-                    nodeStack.push(node.childNodes[i]);
-                }
-            }
-        }
-
-        var sel = window.getSelection();
-        sel.removeAllRanges();
-        sel.addRange(range);
-    }
-} else if (document.selection) {
-    saveSelection = function(containerEl) {
-        var selectedTextRange = document.selection.createRange();
-        var preSelectionTextRange = document.body.createTextRange();
-        preSelectionTextRange.moveToElementText(containerEl);
-        preSelectionTextRange.setEndPoint("EndToStart", selectedTextRange);
-        var start = preSelectionTextRange.text.length;
-
-        return {
-            start: start,
-            end: start + selectedTextRange.text.length
-        }
-    };
-
-    restoreSelection = function(containerEl, savedSel) {
-        var textRange = document.body.createTextRange();
-        textRange.moveToElementText(containerEl);
-        textRange.collapse(true);
-        textRange.moveEnd("character", savedSel.end);
-        textRange.moveStart("character", savedSel.start);
-        textRange.select();
-    };
-}
-
-
-var savedSelection;
-
-function doSave() {
-    savedSelection = saveSelection( document.getElementById("input") );
-}
-
-function doRestore() {
-    if (savedSelection) {
-        restoreSelection(document.getElementById("input"), savedSelection);
-    }
-}
-
 	function analyze() {
 		document.getElementById("result").style.opacity = 0.5;
 		var url = "http://localhost:8080/analyze";
@@ -196,20 +147,20 @@ function doRestore() {
                 if (firstLine == true) {
                     firstLine = false;
                 } else {
-                    newContent += "<br/>\n";
+                    newContent += "<br/>";
                 }
                 newContent += response.lines[i].code;
             }
 
-            doSave();
-            document.getElementById("input").innerHTML = newContent;
-            doRestore();
+            document.getElementById("output").innerHTML = newContent;
 		}
 
         var language = document.getElementById("language").value;
         var code = document.getElementById("input").value;
 
-		if (code !== "") {
+        if (code === "") {
+            document.getElementById("output").innerHTML = newContent;
+        } else {
             request.open(method, url, async);
             request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
             request.send("language=" + encodeURIComponent(language) + "&code=" + encodeURIComponent(code));
@@ -229,7 +180,8 @@ function doRestore() {
 </h1>
     <h2 style="font-size:44px; font-family:Roboto,sans-serif;font-weight: 300;margin: 45px 0 0 30px;">Analyze your
         <select id="language"
-                style="margin: 0px 0px 0px 0px; position: relative; top: -6px; border: solid 1px #91d315; background-color: #91d315; color: #225463; height: 44px; width: 170px; text-transform: uppercase; font-family: Roboto,sans-serif; text-align: center; font-weight: 500; font-size: 16px">
+                style="margin: 0px 0px 0px 0px; position: relative; top: -6px; border: solid 1px #91d315; background-color: #91d315; color: #225463; height: 44px; width: 170px; text-transform: uppercase; font-family: Roboto,sans-serif; text-align: center; font-weight: 500; font-size: 16px"
+                onchange="analyze()" >
             <option value="ABAP">ABAP</option><!-- abap -->
             <option value="C">C</option><!-- c -->
             <option value="C#">C#</option><!-- cs -->
@@ -251,8 +203,17 @@ function doRestore() {
         </select>
         code</h2>
 <div id="content">
-    <div id="result" style="position: fixed; top: 123px; left: 30px; width: 350px; bottom: 30px; padding: 10px 10px 15px 10px; background: #f3f3f3; color: black; overflow: auto; transition: opacity 0.3s;"></div>
-    <textarea id="input" onchange="analyze()" cols="80"></textarea>
+
+    <textarea id="input" oninput="analyze()" onchange="analyze()" cols="80" rows="20" spellcheck="false">arr = [1, 2, 3];
+for (var x in arr) {
+&nbsp;&nbsp;console.log(x);
+}</textarea>
+
+    <div id="output">
+    </div>
+
+    <div id="result"></div>
+}</div>
 </div>
 </body>
 </html>
