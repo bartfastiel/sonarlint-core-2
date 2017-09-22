@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Sonar at your fingertips</title>
+    <title>Instalint - online code inspection</title>
     <style type="text/css">
         .issue {
             background-color: #fff;
@@ -170,52 +170,31 @@
 		}
 	}
     </script>
-    <style type="text/css">
-@import url(https://fonts.googleapis.com/css?family=Roboto:300,400,500,700);
-@font-face{font-family:sonar;src:url("https://sonarcloud.io/fonts/sonar-5.2.eot?");src:url("https://sonarcloud.io/fonts/sonar-5.2.eot?#iefix") format("embedded-opentype"),url("https://sonarcloud.io/fonts/sonar-5.2.woff?") format("woff"),url("https://sonarcloud.io/fonts/sonar-5.2.ttf?") format("truetype"),url("https://sonarcloud.io/fonts/sonar-5.2.svg?#sonar") format("svg");font-weight:400;font-style:normal}
-    </style>
 </head>
 
 <body style="margin: 0; font-family:Helvetica Neue,Segoe UI,Helvetica,Arial,sans-serif;background-color: #4b9fd5; color: white" onload="analyze()">
 <h1 style="position: fixed; top:0; left: 0; right: 0;	height: 25px; background-color: #262626; margin: 0; font-size: 16px; padding: 5px 0 0 10px;font-weight:normal">
-    <em style="font-weight: bold;font-style:normal">sonar</em>instant
+    instalint
 </h1>
     <h2 style="font-size:44px; font-family:Roboto,sans-serif;font-weight: 300;margin: 45px 0 0 30px;">Analyze your
         <select id="language"
                 style="margin: 0px 0px 0px 0px; position: relative; top: -6px; border: solid 1px #91d315; background-color: #91d315; color: #225463; height: 44px; width: 170px; text-transform: uppercase; font-family: Roboto,sans-serif; text-align: center; font-weight: 500; font-size: 16px"
                 onchange="analyze()" >
-            <option value="ABAP">ABAP</option><!-- abap -->
-            <option value="C">C</option><!-- c -->
-            <option value="C#">C#</option><!-- cs -->
-            <option value="C++ (limited)">C++ (limited)</option><!-- cpp -->
-            <option value="COBOL">COBOL</option><!-- cobol -->
-            <option value="Flex">Flex</option><!-- flex -->
-            <option value="Java (limited)">Java (limited)</option><!-- java -->
             <option value="JavaScript" selected="selected">JavaScript</option><!-- js -->
-            <option value="Objective-C">Objective-C</option><!-- objc -->
-            <option value="PHP">PHP</option><!-- php -->
-            <option value="PL/I">PL/I</option><!-- pli -->
-            <option value="PL/SQL">PL/SQL</option><!-- plsql -->
-            <option value="Python">Python</option><!-- py -->
-            <option value="RPG">RPG</option><!-- rpg -->
-            <option value="Swift">Swift</option><!-- swift -->
-            <option value="Visual Basic .NET">Visual Basic .NET</option><!-- vbnet -->
-            <option value="Web">Web</option><!-- web -->
-            <option value="XML">XML</option><!-- xml -->
         </select>
         code</h2>
 <div id="content">
 
     <textarea id="input" oninput="analyze()" onchange="analyze()" cols="80" rows="20" spellcheck="false">arr = [1, 2, 3];
 for (var x in arr) {
-&nbsp;&nbsp;console.log(x);
+console.log(x);
 }</textarea>
 
     <div id="output">
     </div>
 
     <div id="result"></div>
-}</div>
+</div>
 </div>
 </body>
 </html>
