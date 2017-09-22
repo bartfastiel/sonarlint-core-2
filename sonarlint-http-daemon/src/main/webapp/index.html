@@ -121,7 +121,9 @@
     <script>
 	function analyze() {
 		document.getElementById("result").style.opacity = 0.5;
-		var url = "http://localhost:8080/analyze";
+        var loc = window.location;
+        var baseUrl = loc.protocol + "//" + loc.hostname + (loc.port? ":"+loc.port : "") + "/" + loc.pathname.split('/')[1];
+		var url = baseUrl + (baseUrl.endsWith("/") ? "" : "/") + "analyze";
 		var method = "POST";
 		var async = true;
 		var request = new XMLHttpRequest();
