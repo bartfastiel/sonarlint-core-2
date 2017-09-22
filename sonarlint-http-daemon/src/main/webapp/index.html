@@ -3,6 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
     <style type="text/css">
         .issue {
             background-color: #fff;
@@ -59,6 +60,20 @@
             background-color: #4b9fd5;
             color: white;
             min-height:97vh;
+        }
+
+        @media (max-width: 800px) {
+            body {
+                grid-template-rows: 30px auto auto auto auto;
+                grid-template-columns: 5px auto 5px;
+                grid-template-areas:
+                  "logo-cell logo-cell logo-cell"
+                  "a languageSelect-cell b"
+                  "c input-cell d"
+                  "e output-cell f"
+                  "g result-cell h"
+                ;
+            }
         }
 
         #logo {
