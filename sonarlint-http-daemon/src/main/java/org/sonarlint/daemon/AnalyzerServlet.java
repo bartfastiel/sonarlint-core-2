@@ -53,7 +53,7 @@ public class AnalyzerServlet extends HttpServlet {
   @Override
   public void init(ServletConfig config) throws ServletException {
     super.init(config);
-    Path sonarlintHome = Paths.get(".");
+    Path sonarlintHome = Paths.get(config.getServletContext().getContextPath());
     sonarlint = new StandaloneSonarLintImpl(Utils.getAnalyzers(sonarlintHome));
   }
 
