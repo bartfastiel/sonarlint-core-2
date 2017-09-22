@@ -21,11 +21,14 @@ package org.sonarlint.daemon;
 
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import javax.servlet.ServletConfig;
@@ -50,11 +53,18 @@ public class AnalyzerServlet extends HttpServlet {
 
   private StandaloneSonarLintImpl sonarlint;
 
-  @Override
-  public void init(ServletConfig config) throws ServletException {
-    super.init(config);
-    Path sonarlintHome = Paths.get(config.getServletContext().getContextPath());
-    sonarlint = new StandaloneSonarLintImpl(Utils.getAnalyzers(sonarlintHome));
+  private StandaloneSonarLintImpl initSonarLint() {
+    if (sonarlint == null) {
+      String catalinaBase = System.getProperty("catalina.base");
+      Path workDir = Paths.get(catalinaBase, "work", "Catalina", "localhost", "ROOT");
+      try {
+        sonarlint = new StandaloneSonarLintImpl(Utils.getAnalyzers(workDir));
+      } catch (Exception e) {
+        Logger.getLogger(getClass().getName()).warning(() -> "workDir: " + workDir.toAbsolutePath());
+        throw new IllegalStateException("Cannot initialize analyzers", e);
+      }
+    }
+    return sonarlint;
   }
 
   @Override
@@ -78,6 +88,8 @@ public class AnalyzerServlet extends HttpServlet {
         language = "JavaScript";
         json.value("No language specified, defaulting to " + language);
       }
+
+      StandaloneSonarLintImpl sonarlint = initSonarLint();
 
       List<Issue> issues = getIssues(json, sonarlint, code, language);
       List<SonarlintDaemon.RuleDetails> rules = getRules(json, sonarlint, issues);
