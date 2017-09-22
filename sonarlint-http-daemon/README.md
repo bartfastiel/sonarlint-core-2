@@ -19,8 +19,9 @@ Clone and build sonarlint-core:
 
 Download analyzers:
 
-    cd sonarlint-http-daemon/plugins
-    wget https://sonarsource.bintray.com/Distribution/sonar-javascript-plugin/sonar-javascript-plugin-3.0.0.4962.jar
+    mkdir -pv sonarlint-http-daemon/null/work/Catalina/localhost/ROOT/plugins
+    cd sonarlint-http-daemon/null/work/Catalina/localhost/ROOT/plugins
+    wget https://sonarsource.bintray.com/Distribution/sonar-javascript-plugin/sonar-javascript-plugin-3.1.1.5128.jar
     wget https://sonarsource.bintray.com/Distribution/sonar-python-plugin/sonar-python-plugin-1.8.0.1496.jar
     wget https://sonarsource.bintray.com/Distribution/sonar-php-plugin/sonar-php-plugin-2.10.0.2087.jar
     cd ..
