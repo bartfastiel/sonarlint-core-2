@@ -55,17 +55,34 @@
             justify-items: stretch;
             align-items: stretch;
 
-            margin: 0;
+            margin: 0 0 10px 0;
             font-family: Helvetica Neue,Segoe UI,Helvetica,Arial,sans-serif;
             background-color: #4b9fd5;
             color: white;
             min-height:97vh;
         }
 
+        .broad {
+            display: inline;
+        }
+        .narrow {
+            display: none;
+        }
+
         @media (max-width: 800px) {
+
+            .broad {
+                display: none;
+            }
+            .narrow {
+                display: inline;
+            }
+
             body {
                 grid-template-rows: 30px auto auto auto auto;
                 grid-template-columns: 5px auto 5px;
+                grid-row-gap: 10px;
+                grid-column-gap: 0px;
                 grid-template-areas:
                   "logo-cell logo-cell logo-cell"
                   "a languageSelect-cell b"
@@ -231,14 +248,15 @@
 </h1>
 
 <h2 id="languageSelect">
-    Analyze your
+    <span class="broad">Analyze your</span>
+    <span class="narrow">Analyze</span>
     <select id="language"
             onchange="analyze()" >
         <option value="JavaScript" selected="selected">JavaScript</option><!-- js -->
         <option value="PHP">PHP</option><!-- php -->
         <option value="Python">Python</option><!-- py -->
     </select>
-    code
+    <span class="broad">code</span>
 </h2>
 
 <textarea id="input" oninput="analyze()" onchange="analyze()" cols="80" rows="20" spellcheck="false">arr = [1, 2, 3];
