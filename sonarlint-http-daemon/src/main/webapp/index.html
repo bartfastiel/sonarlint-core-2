@@ -214,6 +214,64 @@
     </style>
     <title>Instalint - online code inspection</title>
     <script>
+
+	function onInit() {
+	    useLocationHashForToSelectALanguage();
+   	    updateLocationHash();
+    	window.onhashchange = onLocationHashChange;
+    	analyze();
+	}
+
+	function onLocationHashChange() {
+	    useLocationHashForToSelectALanguage();
+	    updateLocationHash();
+	}
+
+	function onLanguageChange() {
+	    updateLocationHash();
+	    analyze();
+	}
+
+    function useLocationHashForToSelectALanguage() {
+	    var path = document.location.hash;
+	    var pathPattern = new RegExp("^#(/(.*?))+$", "");
+	    var pathMatches = pathPattern.exec(path);
+        var newLanguageValue = "JavaScript";
+        var languageSelect = document.getElementById("language");
+	    if (pathMatches) {
+	        var language = pathMatches[2];
+	        for (var optionCounter in languageSelect.options) {
+	            var option = languageSelect.options[optionCounter];
+	            if (option.label == language || option.value == language) {
+                    newLanguageValue = option.value;
+	            }
+	        }
+	    }
+
+	    if (languageSelect.value != newLanguageValue) {
+	        languageSelect.value = newLanguageValue;
+    	    updateLocationHash();
+    	    analyze();
+	    }
+    }
+
+    function updateLocationHash() {
+   	    var languageSelect = document.getElementById("language");
+	    var language = languageSelect.value;
+	    var languageSelectLabel = "JavaScript";
+        for (var optionCounter in languageSelect.options) {
+            var option = languageSelect.options[optionCounter];
+            if (option.value == language) {
+                languageSelectLabel = option.label;
+            }
+        }
+
+   	    var newPath = "#/" + languageSelectLabel;
+	    if (document.location.hash != newPath) {
+	        document.location.hash = newPath;
+	    }
+    }
+
 	function analyze() {
 		document.getElementById("result").style.opacity = 0.5;
         var loc = window.location;
@@ -267,7 +325,7 @@
     </script>
 </head>
 
-<body onload="analyze()">
+<body onload="onInit()">
 
 <div id="header">
 
@@ -282,8 +340,7 @@
 <h2 id="languageSelect">
     <span class="broad">Analyze your</span>
     <span class="narrow">Analyze</span>
-    <select id="language"
-            onchange="analyze()" >
+    <select id="language" onchange="onLanguageChange()" >
         <option value="JavaScript" selected="selected">JavaScript</option><!-- js -->
         <option value="PHP">PHP</option><!-- php -->
         <option value="Python">Python</option><!-- py -->
