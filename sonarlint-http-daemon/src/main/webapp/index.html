@@ -48,7 +48,7 @@
             grid-row-gap: 40px;
             grid-column-gap: 2%;
             grid-template-areas:
-              "logo-cell logo-cell logo-cell logo-cell logo-cell"
+              "header-cell header-cell header-cell header-cell header-cell"
               "a languageSelect-cell languageSelect-cell languageSelect-cell b"
               "c input-cell output-cell result-cell d"
             ;
@@ -80,11 +80,11 @@
 
             body {
                 grid-template-rows: 30px auto auto auto auto;
-                grid-template-columns: 5px auto 5px;
+                grid-template-columns: 5px auto auto 5px;
                 grid-row-gap: 10px;
                 grid-column-gap: 0px;
                 grid-template-areas:
-                  "logo-cell logo-cell logo-cell"
+                  "header-cell header-cell header-cell"
                   "a languageSelect-cell b"
                   "c input-cell d"
                   "e output-cell f"
@@ -93,11 +93,37 @@
             }
         }
 
-        #logo {
-            grid-area: logo-cell;
+        #header {
+            grid-area: header-cell;
             background-color: #262626;
+
+            display: grid;
+            grid-template-rows: auto;
+            grid-template-columns: auto auto;
+            grid-row-gap: 0;
+            grid-column-gap: 10px;
+            grid-template-areas:
+              "logo-cell about-cell"
+            ;
+
+        }
+
+        #logo {
             font-size: 16px;
-            padding: 5px 0 0 10px;
+            justify-self: start;
+            align-self: center;
+            padding: 0 0 0 10px;
+            font-weight: normal;
+            margin: 0;
+        }
+
+        #about {
+            grid-area: about-cell;
+            color: white;
+            justify-self: end;
+            align-self: center;
+            font-size: 10px;
+            padding: 0 8px 0 0;
             font-weight: normal;
             margin: 0;
         }
@@ -243,9 +269,15 @@
 
 <body onload="analyze()">
 
-<h1 id="logo">
-    instalint
-</h1>
+<div id="header">
+
+    <h1 id="logo">
+        instalint
+    </h1>
+
+    <a id="about" href="/about">About</a>
+
+</div>
 
 <h2 id="languageSelect">
     <span class="broad">Analyze your</span>
