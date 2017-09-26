@@ -19,33 +19,29 @@
  */
 package org.sonarlint.daemon;
 
+import io.grpc.stub.StreamObserver;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
-
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.sonar.api.utils.text.JsonWriter;
 import org.sonarlint.daemon.services.StandaloneSonarLintImpl;
 import org.sonarsource.sonarlint.daemon.proto.SonarlintDaemon;
 import org.sonarsource.sonarlint.daemon.proto.SonarlintDaemon.AnalyzeContentRequest;
 import org.sonarsource.sonarlint.daemon.proto.SonarlintDaemon.AnalyzeContentRequest.Builder;
 import org.sonarsource.sonarlint.daemon.proto.SonarlintDaemon.Issue;
-
-import io.grpc.stub.StreamObserver;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
@@ -182,7 +178,7 @@ public class AnalyzerServlet extends HttpServlet {
       } else if (piece.getType() == PieceType.UNDERLINE_START) {
         line.getAndUpdate(l -> l + "<span class=\"source-line-code-issue\">");
       } else if (piece.getType() == PieceType.TEXT) {
-        line.getAndUpdate(l -> l + piece.getText());
+        line.getAndUpdate(l -> l + escapeHTML(piece.getText()));
       } else if (piece.getType() == PieceType.UNDERLINE_END) {
         line.getAndUpdate(l -> l + "</span>");
       } else if (piece.getType() == PieceType.LINE_END) {
@@ -191,6 +187,21 @@ public class AnalyzerServlet extends HttpServlet {
       }
     });
     json.endArray();
+  }
+
+  public static String escapeHTML(String s) {
+    StringBuilder out = new StringBuilder(Math.max(16, s.length()));
+    for (int i = 0; i < s.length(); i++) {
+      char c = s.charAt(i);
+      if (c > 127 || c == '"' || c == '<' || c == '>' || c == '&') {
+        out.append("&#");
+        out.append((int) c);
+        out.append(';');
+      } else {
+        out.append(c);
+      }
+    }
+    return out.toString();
   }
 
   private void writePagination(List<Issue> issues, JsonWriter json) {
