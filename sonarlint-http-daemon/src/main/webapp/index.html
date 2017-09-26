@@ -227,8 +227,8 @@
 		    var response = JSON.parse(request.responseText);
 
 		    document.getElementById("result").innerHTML = "";
-            for (var i in response.issues) {
-                var issue = response.issues[i];
+            for (var issueCounter in response.issues) {
+                var issue = response.issues[issueCounter];
                 document.getElementById("result").innerHTML +=
                 '<div class="issue">'
                 + issue.message
@@ -240,13 +240,13 @@
 
             var newContent = "";
             var firstLine = true;
-            for (var i in response.lines) {
+            for (var line in response.lines) {
                 if (firstLine == true) {
                     firstLine = false;
                 } else {
                     newContent += "<br/>";
                 }
-                newContent += response.lines[i].code;
+                newContent += response.lines[line].code;
             }
 
             document.getElementById("output").innerHTML = newContent;
