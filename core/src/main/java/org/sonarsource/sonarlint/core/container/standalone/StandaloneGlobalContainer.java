@@ -40,6 +40,7 @@ import org.sonar.api.utils.Version;
 import org.sonarsource.sonarlint.core.analyzer.sensor.NewSensorsExecutor;
 import org.sonarsource.sonarlint.core.client.api.common.RuleDetails;
 import org.sonarsource.sonarlint.core.client.api.common.analysis.AnalysisResults;
+import org.sonarsource.sonarlint.core.client.api.common.analysis.HighlightingListener;
 import org.sonarsource.sonarlint.core.client.api.common.analysis.IssueListener;
 import org.sonarsource.sonarlint.core.client.api.standalone.StandaloneAnalysisConfiguration;
 import org.sonarsource.sonarlint.core.client.api.standalone.StandaloneGlobalConfiguration;
@@ -113,10 +114,13 @@ public class StandaloneGlobalContainer extends ComponentContainer {
     rulesDefinitions = container.getRulesDefinitions();
   }
 
-  public AnalysisResults analyze(StandaloneAnalysisConfiguration configuration, IssueListener issueListener) {
+  public AnalysisResults analyze(StandaloneAnalysisConfiguration configuration,
+                                 IssueListener issueListener,
+                                 HighlightingListener highlightingListener) {
     AnalysisContainer analysisContainer = new AnalysisContainer(this);
     analysisContainer.add(configuration);
     analysisContainer.add(issueListener);
+    analysisContainer.add(highlightingListener);
     analysisContainer.add(rules);
     analysisContainer.add(activeRules);
     analysisContainer.add(NewSensorsExecutor.class);

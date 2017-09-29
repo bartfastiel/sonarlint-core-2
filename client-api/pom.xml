@@ -38,6 +38,11 @@
       <version>1.16.0</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>org.sonarsource.sonarqube</groupId>
+      <artifactId>sonar-plugin-api</artifactId>
+      <version>6.3-SNAPSHOT</version>
+    </dependency>
   </dependencies>
 
   <build>

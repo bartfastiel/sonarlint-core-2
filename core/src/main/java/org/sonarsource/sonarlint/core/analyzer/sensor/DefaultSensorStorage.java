@@ -44,6 +44,7 @@ import org.sonar.api.utils.MessageException;
 import org.sonarsource.sonarlint.core.analyzer.issue.DefaultClientIssue;
 import org.sonarsource.sonarlint.core.analyzer.issue.IssueFilters;
 import org.sonarsource.sonarlint.core.client.api.common.analysis.ClientInputFile;
+import org.sonarsource.sonarlint.core.client.api.common.analysis.HighlightingListener;
 import org.sonarsource.sonarlint.core.client.api.common.analysis.IssueListener;
 import org.sonarsource.sonarlint.core.container.analysis.filesystem.SonarLintInputFile;
 import org.sonarsource.sonarlint.core.container.model.DefaultAnalysisResult;
@@ -55,13 +56,17 @@ public class DefaultSensorStorage implements SensorStorage {
   private final IssueFilters filters;
   private final IssueListener issueListener;
   private final DefaultAnalysisResult analysisResult;
+  private final HighlightingListener highlightingListener;
 
-  public DefaultSensorStorage(ActiveRules activeRules, Rules rules, IssueFilters filters, IssueListener issueListener, DefaultAnalysisResult analysisResult) {
+  public DefaultSensorStorage(ActiveRules activeRules, Rules rules, IssueFilters filters,
+                              IssueListener issueListener, DefaultAnalysisResult analysisResult,
+                              HighlightingListener highlightingListener) {
     this.activeRules = activeRules;
     this.rules = rules;
     this.filters = filters;
     this.issueListener = issueListener;
     this.analysisResult = analysisResult;
+    this.highlightingListener = highlightingListener;
   }
 
   @Override
@@ -106,7 +111,7 @@ public class DefaultSensorStorage implements SensorStorage {
 
   @Override
   public void store(DefaultHighlighting highlighting) {
-    // NO-OP
+    highlightingListener.handle(highlighting.getSyntaxHighlightingRuleSet());
   }
 
   public void store(DefaultInputFile inputFile, Map<Symbol, Set<TextRange>> referencesBySymbol) {

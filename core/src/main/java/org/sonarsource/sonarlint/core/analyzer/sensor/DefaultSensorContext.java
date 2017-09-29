@@ -24,6 +24,7 @@ import org.sonar.api.SonarRuntime;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.fs.InputModule;
+import org.sonar.api.batch.fs.TextRange;
 import org.sonar.api.batch.rule.ActiveRules;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.coverage.NewCoverage;
@@ -31,6 +32,7 @@ import org.sonar.api.batch.sensor.cpd.NewCpdTokens;
 import org.sonar.api.batch.sensor.error.NewAnalysisError;
 import org.sonar.api.batch.sensor.error.internal.DefaultAnalysisError;
 import org.sonar.api.batch.sensor.highlighting.NewHighlighting;
+import org.sonar.api.batch.sensor.highlighting.TypeOfText;
 import org.sonar.api.batch.sensor.highlighting.internal.DefaultHighlighting;
 import org.sonar.api.batch.sensor.internal.SensorStorage;
 import org.sonar.api.batch.sensor.issue.NewIssue;
@@ -56,8 +58,8 @@ public class DefaultSensorContext implements SensorContext {
   private final InputModule module;
   private final SonarRuntime sqRuntime;
 
-  public DefaultSensorContext(InputModule module, Settings settings, FileSystem fs, ActiveRules activeRules, SensorStorage sensorStorage,
-    SonarRuntime sqRuntime) {
+  public DefaultSensorContext(InputModule module, Settings settings, FileSystem fs, ActiveRules activeRules,
+                              SensorStorage sensorStorage, SonarRuntime sqRuntime) {
     this.module = module;
     this.settings = settings;
     this.fs = fs;
@@ -93,14 +95,7 @@ public class DefaultSensorContext implements SensorContext {
 
   @Override
   public NewHighlighting newHighlighting() {
-
-    return new DefaultHighlighting(sensorStorage) {
-      @Override
-      public DefaultHighlighting onFile(InputFile inputFile) {
-        System.out.println("highlight! " + inputFile);
-        return super.onFile(inputFile);
-      }
-    };
+    return new DefaultHighlighting(sensorStorage);
   }
 
   @Override

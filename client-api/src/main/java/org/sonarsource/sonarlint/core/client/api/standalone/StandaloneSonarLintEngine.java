@@ -23,6 +23,7 @@ import javax.annotation.Nullable;
 import org.sonarsource.sonarlint.core.client.api.common.LogOutput;
 import org.sonarsource.sonarlint.core.client.api.common.RuleDetails;
 import org.sonarsource.sonarlint.core.client.api.common.analysis.AnalysisResults;
+import org.sonarsource.sonarlint.core.client.api.common.analysis.HighlightingListener;
 import org.sonarsource.sonarlint.core.client.api.common.analysis.Issue;
 import org.sonarsource.sonarlint.core.client.api.common.analysis.IssueListener;
 
@@ -45,6 +46,9 @@ public interface StandaloneSonarLintEngine {
   /**
    * Trigger an analysis
    */
-  AnalysisResults analyze(StandaloneAnalysisConfiguration configuration, IssueListener issueListener, @Nullable LogOutput logOutput);
+  AnalysisResults analyze(StandaloneAnalysisConfiguration configuration,
+                          IssueListener issueListener,
+                          HighlightingListener highlightingListener,
+                          @Nullable LogOutput logOutput);
 
 }
