@@ -1,5 +1,5 @@
 /*
- * SonarLint Core - Implementation
+ * SonarLint Core - Implementation (trimmed)
  * Copyright (C) 2009-2017 SonarSource SA
  * mailto:info AT sonarsource DOT com
  *
@@ -38,21 +38,20 @@ public class PluginManifestTest {
 
   @Test
   public void should_create_manifest() throws URISyntaxException, IOException {
-    PluginManifest manifest = new PluginManifest(Paths.get(PluginLocator.getJavaPluginUrl().toURI()));
+    PluginManifest manifest = new PluginManifest(Paths.get(PluginLocator.getJavaScriptPluginUrl().toURI()));
 
-    assertThat(manifest.getKey()).isEqualTo("java");
-    assertThat(manifest.getName()).isEqualTo("SonarJava");
+    assertThat(manifest.getKey()).isEqualTo("javascript");
+    assertThat(manifest.getName()).isEqualTo("SonarJS");
     assertThat(manifest.getRequirePlugins()).isEmpty();
-    assertThat(manifest.getMainClass()).isEqualTo("org.sonar.plugins.java.JavaPlugin");
+    assertThat(manifest.getMainClass()).isEqualTo("org.sonar.plugins.javascript.JavaScriptPlugin");
     assertThat(manifest.getVersion().length()).isGreaterThan(1);
     assertThat(manifest.isUseChildFirstClassLoader()).isFalse();
-    assertThat(manifest.getDependencies()).contains("META-INF/lib/org.jacoco.core-0.7.5.201505241946.jar");
     assertThat(manifest.getImplementationBuild()).isNotEmpty();
   }
 
   @Test
   public void accessors() throws URISyntaxException, IOException, ParseException {
-    URL jar = PluginLocator.getJavaPluginUrl();
+    URL jar = PluginLocator.getJavaScriptPluginUrl();
 
     PluginManifest manifest = new PluginManifest(Paths.get(jar.toURI()));
 

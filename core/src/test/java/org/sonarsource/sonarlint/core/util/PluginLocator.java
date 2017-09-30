@@ -1,5 +1,5 @@
 /*
- * SonarLint Core - Implementation
+ * SonarLint Core - Implementation (trimmed)
  * Copyright (C) 2009-2017 SonarSource SA
  * mailto:info AT sonarsource DOT com
  *
@@ -25,10 +25,10 @@ import java.net.URL;
 
 public class PluginLocator {
 
-  public static final String SONAR_JAVA_PLUGIN_JAR = "sonar-java-plugin-4.8.0.9441.jar";
+  public static final String SONAR_JAVASCRIPT_PLUGIN_JAR = "sonar-javascript-plugin-2.21.1.4786.jar";
 
-  public static URL getJavaPluginUrl() {
-    return getPluginUrl(SONAR_JAVA_PLUGIN_JAR);
+  public static URL getJavaScriptPluginUrl() {
+    return getPluginUrl(SONAR_JAVASCRIPT_PLUGIN_JAR);
   }
 
   private static URL getPluginUrl(String file) {
