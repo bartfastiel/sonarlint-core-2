@@ -23,30 +23,6 @@
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.sonarsource.sonarqube</groupId>
-      <artifactId>sonar-ws</artifactId>
-      <version>${sonar-ws.version}</version>
-      <exclusions>
-        <!--  Only interested in the protobuf stubs -->
-        <exclusion>
-          <groupId>*</groupId>
-          <artifactId>*</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-    <dependency>
-      <groupId>org.sonarsource.sonarqube</groupId>
-      <artifactId>sonar-scanner-protocol</artifactId>
-      <version>${sonar-scanner-protocol.version}</version>
-      <exclusions>
-        <!--  Only interested in the protobuf stubs -->
-        <exclusion>
-          <groupId>*</groupId>
-          <artifactId>*</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-    <dependency>
       <groupId>com.google.code.gson</groupId>
       <artifactId>gson</artifactId>
       <version>2.7</version>
@@ -80,16 +56,6 @@
       <groupId>org.codehaus.sonar</groupId>
       <artifactId>sonar-classloader</artifactId>
       <version>1.0</version>
-    </dependency>
-    <dependency>
-      <groupId>com.google.protobuf</groupId>
-      <artifactId>protobuf-java</artifactId>
-      <version>${protobuf.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.google.protobuf</groupId>
-      <artifactId>protobuf-java-util</artifactId>
-      <version>${protobuf.version}</version>
     </dependency>
     <dependency>
       <groupId>org.sonarsource.sonarqube</groupId>
@@ -139,12 +105,6 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>com.squareup.okhttp3</groupId>
-      <artifactId>mockwebserver</artifactId>
-      <scope>test</scope>
-      <version>${okhttp.version}</version>
-    </dependency>
-    <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <scope>test</scope>
@@ -159,118 +119,14 @@
       <artifactId>mockito-core</artifactId>
       <scope>test</scope>
     </dependency>
-    <dependency>
-      <groupId>com.github.stefanbirkner</groupId>
-      <artifactId>system-rules</artifactId>
-      <version>1.16.0</version>
-      <scope>test</scope>
-    </dependency>
   </dependencies>
 
   <build>
-    <resources>
-      <resource>
-        <directory>src/main/resources</directory>
-        <includes>
-          <include>sl_core_version.txt</include>
-        </includes>
-        <filtering>true</filtering>
-      </resource>
-      <resource>
-        <directory>src/main/resources</directory>
-        <excludes>
-          <exclude>sl_core_version.txt</exclude>
-        </excludes>
-        <filtering>false</filtering>
-      </resource>
-    </resources>
-    <extensions>
-      <extension>
-        <groupId>kr.motd.maven</groupId>
-        <artifactId>os-maven-plugin</artifactId>
-        <version>1.4.1.Final</version>
-      </extension>
-    </extensions>
     <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-shade-plugin</artifactId>
-        <executions>
-          <execution>
-            <phase>package</phase>
-            <goals>
-              <goal>shade</goal>
-            </goals>
-            <configuration>
-              <createDependencyReducedPom>true</createDependencyReducedPom>
-              <minimizeJar>true</minimizeJar>
-              <artifactSet>
-                <excludes>
-                  <exclude>${project.groupId}:sonarlint-client-api</exclude>
-                </excludes>
-              </artifactSet>
-              <filters>
-                <filter>
-                  <artifact>*:*</artifact>
-                  <excludes>
-                    <exclude>META-INF/LICENSE*</exclude>
-                    <exclude>META-INF/NOTICE*</exclude>
-                    <exclude>LICENSE*</exclude>
-                    <exclude>NOTICE*</exclude>
-                  </excludes>
-                </filter>
-                <filter>
-                  <artifact>org.sonarsource.sonarlint.core:sonarlint-core</artifact>
-                  <includes>
-                    <include>**</include>
-                  </includes>
-                </filter>
-                <filter>
-                  <artifact>org.sonarsource.sonarqube:sonar-plugin-api</artifact>
-                  <includes>
-                    <include>**</include>
-                  </includes>
-                </filter>
-              </filters>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>build-helper-maven-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>parse-version</id>
-            <goals>
-              <!-- Populate variables parsedVersion.osgiVersion-->
-              <goal>parse-version</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
       <plugin>
         <groupId>org.apache.felix</groupId>
         <artifactId>maven-bundle-plugin</artifactId>
         <extensions>true</extensions>
-        <configuration>
-          <instructions>
-            <Import-Package>
-              !*
-            </Import-Package>
-            <Export-Package>
-                org.sonarsource.sonarlint.core,
-                com.google.protobuf,
-                org.sonarsource.sonarlint.core.telemetry,
-                org.sonarsource.sonarlint.core.notifications,
-            </Export-Package>
-            <!-- Variables parsedVersion.osgiVersion is provided by build-helper-plugin::parse-version-->
-            <Require-Bundle>org.sonarsource.sonarlint.core.sonarlint-client-api;bundle-version="${parsedVersion.osgiVersion}"</Require-Bundle>
-            <_failok>true</_failok>
-            <_nouses>true</_nouses>
-          </instructions>
-        </configuration>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -323,92 +179,6 @@
         </executions>
       </plugin>
     </plugins>
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-antrun-plugin</artifactId>
-          <version>1.7</version>
-        </plugin>
-        <plugin>
-          <groupId>org.codehaus.mojo</groupId>
-          <artifactId>build-helper-maven-plugin</artifactId>
-          <version>1.9.1</version>
-        </plugin>
-      </plugins>
-    </pluginManagement>
   </build>
 
-  <profiles>
-    <profile>
-      <id>protobuf-compile</id>
-      <activation>
-        <file>
-          <exists>src/main/protobuf</exists>
-        </file>
-      </activation>
-      <properties>
-        <sonar.exclusions>target/generated-sources/protobuf/**</sonar.exclusions>
-      </properties>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-antrun-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>compile-protobuf-sources</id>
-                <phase>generate-sources</phase>
-                <goals>
-                  <goal>run</goal>
-                </goals>
-                <configuration>
-                  <target>
-                    <fileset id="fileset" dir="${project.basedir}/src/main/protobuf">
-                      <include name="*.proto" />
-                    </fileset>
-                    <pathconvert refid="fileset" property="protos" pathsep=" " />
-                    <mkdir dir="${project.build.directory}/generated-sources/protobuf" />
-                    <chmod file="${protobuf.compiler}" perm="u+x" />
-                    <exec failonerror="true" executable="${protobuf.compiler}">
-                      <arg value="--proto_path=${project.basedir}/src/main/protobuf" />
-                      <arg value="--java_out=${project.build.directory}/generated-sources/protobuf" />
-                      <arg line="${protos}" />
-                    </exec>
-                  </target>
-                </configuration>
-              </execution>
-            </executions>
-            <dependencies>
-              <dependency>
-                <groupId>com.google.protobuf</groupId>
-                <artifactId>protoc</artifactId>
-                <version>${protobuf.version}</version>
-                <classifier>${os.detected.classifier}</classifier>
-                <type>exe</type>
-              </dependency>
-            </dependencies>
-          </plugin>
-          <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>build-helper-maven-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>add-protobuf-generated-sources</id>
-                <phase>generate-sources</phase>
-                <goals>
-                  <goal>add-source</goal>
-                </goals>
-                <configuration>
-                  <sources>
-                    <source>${project.build.directory}/generated-sources/protobuf</source>
-                  </sources>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-  </profiles>
 </project>
