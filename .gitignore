@@ -1,50 +1,31 @@
-# The following should be moved in related sub-directories
-server/sonar-web/src/main/webapp/stylesheets/sonar-colorizer.css
-server/sonar-web/src/main/webapp/deploy/plugins
-server/sonar-web/src/main/webapp/deploy/bootstrap
-server/sonar-web/src/main/webapp/deploy/maven/org
-server/sonar-web/src/main/webapp/WEB-INF/log/
-server/sonar-web/src/main/webapp/deploy/*.jar
-server/sonar-web/src/main/webapp/deploy/jdbc-driver.txt
+# Java
+*.class
 
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
 
-# ---- Javadoc
-docs.tar
+# Package Files #
+*.jar
+*.war
+*.ear
 
-# ---- Maven
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+
+# Maven
 target/
-dependency-reduced-pom.xml
 
-# ---- IntelliJ IDEA
-*.iws
-*.iml
-*.ipr
-.idea/
-
-# ---- Eclipse
+# Eclipse
 .classpath
 .project
-.settings
-.externalToolBuilders
+.settings/
 
-# ---- Mac OS X
-.DS_Store
-Icon?
-# Thumbnails
-._*
-# Files that might appear on external disk
-.Spotlight-V100
-.Trashes
+# Intellij project files
+#*.iml
+#*.ipr
+#*.iws
+.idea
+*.iml
 
-# ---- Windows
-# Windows image file caches
-Thumbs.db 
-# Folder config file
-Desktop.ini
-
-# ---- Sonar
-.sonar/
-
-# scripts patches, they are local to each developer
-scripts/patches/*.sh
-scripts/patches/*license*.txt
+# misc
+tmp
