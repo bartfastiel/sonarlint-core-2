@@ -162,7 +162,6 @@ public class PluginInfoTest {
     manifest.setName("Java");
     manifest.setMainClass("org.fb.FindbugsPlugin");
     manifest.setBasePlugin("findbugs");
-    manifest.setSonarVersion("4.5.1");
     manifest.setRequirePlugins(new String[] {"java:2.0", "pmd:1.3"});
     manifest.setImplementationBuild("SHA1");
 
@@ -171,7 +170,6 @@ public class PluginInfoTest {
 
     assertThat(pluginInfo.getBasePlugin()).isEqualTo("findbugs");
     assertThat(pluginInfo.getImplementationBuild()).isEqualTo("SHA1");
-    assertThat(pluginInfo.getMinimalSqVersion().getName()).isEqualTo("4.5.1");
     assertThat(pluginInfo.getRequiredPlugins()).extracting("key").containsOnly("java", "pmd");
   }
 
@@ -181,7 +179,6 @@ public class PluginInfoTest {
     PluginInfo checkstyleInfo = PluginInfo.create(checkstyleJar);
 
     assertThat(checkstyleInfo.getName()).isEqualTo("Checkstyle");
-    assertThat(checkstyleInfo.getMinimalSqVersion()).isEqualTo(Version.create("2.8"));
   }
 
   @Test

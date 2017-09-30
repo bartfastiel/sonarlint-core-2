@@ -19,7 +19,7 @@
  */
 package org.sonarsource.sonarlint.core.container.model;
 
-import org.sonarsource.sonarlint.core.client.api.connected.LoadedAnalyzer;
+import org.sonarsource.sonarlint.core.client.api.standalone.LoadedAnalyzer;
 
 public class DefaultLoadedAnalyzer implements LoadedAnalyzer {
   private final String key;

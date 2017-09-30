@@ -23,7 +23,6 @@ import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import javax.annotation.Nullable;
 import org.sonarsource.sonarlint.core.client.api.common.LogOutput;
-import org.sonarsource.sonarlint.core.client.api.common.RuleDetails;
 import org.sonarsource.sonarlint.core.client.api.common.analysis.AnalysisResults;
 import org.sonarsource.sonarlint.core.client.api.common.analysis.HighlightingListener;
 import org.sonarsource.sonarlint.core.client.api.common.analysis.IssueListener;
@@ -65,17 +64,6 @@ public final class StandaloneSonarLintEngineImpl implements StandaloneSonarLintE
   }
 
   @Override
-  public RuleDetails getRuleDetails(String ruleKey) {
-    setLogging(null);
-    rwl.readLock().lock();
-    try {
-      return globalContainer.getRuleDetails(ruleKey);
-    } finally {
-      rwl.readLock().unlock();
-    }
-  }
-
-  @Override
   public AnalysisResults analyze(StandaloneAnalysisConfiguration configuration,
                                  IssueListener issueListener,
                                  HighlightingListener highlightingListener,
@@ -103,23 +91,6 @@ public final class StandaloneSonarLintEngineImpl implements StandaloneSonarLintE
       SonarLintLogging.set(logOutput);
     } else {
       SonarLintLogging.set(this.logOutput);
-    }
-  }
-
-  @Override
-  public void stop() {
-    setLogging(null);
-    rwl.writeLock().lock();
-    try {
-      if (globalContainer == null) {
-        return;
-      }
-      globalContainer.stopComponents(false);
-    } catch (RuntimeException e) {
-      throw SonarLintWrappedException.wrap(e);
-    } finally {
-      this.globalContainer = null;
-      rwl.writeLock().unlock();
     }
   }
 

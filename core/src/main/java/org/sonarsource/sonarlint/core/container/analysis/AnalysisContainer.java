@@ -25,7 +25,6 @@ import org.sonar.api.resources.Languages;
 import org.sonar.api.scan.filesystem.PathResolver;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
-import org.sonarsource.sonarlint.core.analyzer.issue.IssueFilters;
 import org.sonarsource.sonarlint.core.analyzer.noop.NoOpFileLinesContextFactory;
 import org.sonarsource.sonarlint.core.analyzer.sensor.DefaultSensorContext;
 import org.sonarsource.sonarlint.core.analyzer.sensor.DefaultSensorStorage;
@@ -58,7 +57,6 @@ public class AnalysisContainer extends ComponentContainer {
 
   private void addCoreComponents() {
     add(
-      new ProjectProvider(),
       new DefaultInputModule("sonarlint"),
       NoOpFileLinesContextFactory.class,
 
@@ -88,7 +86,6 @@ public class AnalysisContainer extends ComponentContainer {
       DefaultSensorContext.class,
       DefaultSensorStorage.class,
       ScannerExtensionDictionnary.class,
-      IssueFilters.class,
 
       // rules
       CheckFactory.class,

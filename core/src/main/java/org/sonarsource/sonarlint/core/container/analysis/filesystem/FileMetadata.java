@@ -52,16 +52,11 @@ public class FileMetadata {
 
   public abstract static class CharHandler {
 
-    protected void handleAll(char c) {
-    }
+    abstract void handleAll(char c);
 
-    protected void handleIgnoreEoL(char c) {
-    }
+    abstract void newLine();
 
-    protected void newLine() {
-    }
-
-    protected void eof() {
+    void eof() {
     }
   }
 
@@ -180,7 +175,6 @@ public class FileMetadata {
             handler.newLine();
           } else {
             handler.newLine();
-            handler.handleIgnoreEoL(c);
             handler.handleAll(c);
           }
         }
@@ -197,7 +191,6 @@ public class FileMetadata {
         }
       } else {
         for (CharHandler handler : handlers) {
-          handler.handleIgnoreEoL(c);
           handler.handleAll(c);
         }
       }

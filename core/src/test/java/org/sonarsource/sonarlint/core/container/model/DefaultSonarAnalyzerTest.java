@@ -32,27 +32,20 @@ public class DefaultSonarAnalyzerTest {
     assertThat(analyzer.filename()).isEqualTo("file");
     assertThat(analyzer.hash()).isEqualTo("hash");
     assertThat(analyzer.version()).isEqualTo("version");
-    assertThat(analyzer.sonarlintCompatible()).isFalse();
-    assertThat(analyzer.minimumVersion()).isNull();
   }
 
   @Test
   public void testSetters() {
     DefaultSonarAnalyzer analyzer = new DefaultSonarAnalyzer("key", "file", "hash", "version", false);
 
-    
     analyzer.key("key2");
     analyzer.filename("file2");
     analyzer.hash("hash2");
     analyzer.version("version2");
-    analyzer.sonarlintCompatible(true);
-    analyzer.minimumVersion("minimumVersion2");
 
     assertThat(analyzer.key()).isEqualTo("key2");
     assertThat(analyzer.filename()).isEqualTo("file2");
     assertThat(analyzer.hash()).isEqualTo("hash2");
     assertThat(analyzer.version()).isEqualTo("version2");
-    assertThat(analyzer.sonarlintCompatible()).isTrue();
-    assertThat(analyzer.minimumVersion()).isEqualTo("minimumVersion2");
   }
 }

@@ -22,8 +22,6 @@ package org.sonarsource.sonarlint.core.container;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Pattern;
-import org.sonar.api.utils.log.Logger;
-import org.sonar.api.utils.log.Loggers;
 
 class ComponentKeys {
 
@@ -31,20 +29,15 @@ class ComponentKeys {
   private final Set<Class> objectsWithoutToString = new HashSet<>();
 
   Object of(Object component) {
-    return of(component, Loggers.get(ComponentKeys.class));
-  }
-
-  Object of(Object component, Logger log) {
     if (component instanceof Class) {
       return component;
     }
     String key = component.toString();
     if (IDENTITY_HASH_PATTERN.matcher(key).matches()) {
       if (!objectsWithoutToString.add(component.getClass())) {
-        log.warn(String.format("Bad component key: %s. Please implement toString() method on class %s", key, component.getClass().getName()));
+        throw new IllegalArgumentException(String.format("Bad component key: %s. Please implement toString() method on class %s", key, component.getClass().getName()));
       }
-      key += Uuids.createFast();
     }
-    return new StringBuilder().append(component.getClass().getCanonicalName()).append("-").append(key).toString();
+    return component.getClass().getCanonicalName() + "-" + key;
   }
 }

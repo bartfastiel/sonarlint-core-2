@@ -78,8 +78,6 @@ public class FileIndexer {
       fs.setEncoding(inputFile.charset());
     }
     status.markAsIndexed(inputFile);
-    SonarLintInputDir inputDir = new SonarLintInputDir(inputFile.path().getParent());
-    fs.add(inputDir);
   }
 
   private class Progress {

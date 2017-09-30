@@ -38,7 +38,6 @@ public final class PluginManifest {
   public static final String MAIN_CLASS_ATTRIBUTE = "Plugin-Class";
   public static final String NAME_ATTRIBUTE = "Plugin-Name";
   public static final String VERSION_ATTRIBUTE = "Plugin-Version";
-  public static final String SONAR_VERSION_ATTRIBUTE = "Sonar-Version";
   public static final String DEPENDENCIES_ATTRIBUTE = "Plugin-Dependencies";
   public static final String REQUIRE_PLUGINS_ATTRIBUTE = "Plugin-RequirePlugins";
 
@@ -66,7 +65,6 @@ public final class PluginManifest {
   private String name;
   private String mainClass;
   private String version;
-  private String sonarVersion;
   private String[] dependencies;
   private boolean useChildFirstClassLoader;
   private String basePlugin;
@@ -88,14 +86,6 @@ public final class PluginManifest {
     }
   }
 
-  /**
-   * @param manifest can not be null
-   */
-  public PluginManifest(Manifest manifest) {
-    this();
-    loadManifest(manifest);
-  }
-
   public PluginManifest() {
     dependencies = new String[0];
     useChildFirstClassLoader = false;
@@ -104,11 +94,10 @@ public final class PluginManifest {
 
   private void loadManifest(Manifest manifest) {
     Attributes attributes = manifest.getMainAttributes();
-    this.key = PluginKeyUtils.sanitize(attributes.getValue(KEY_ATTRIBUTE));
+    this.key = attributes.getValue(KEY_ATTRIBUTE);
     this.mainClass = attributes.getValue(MAIN_CLASS_ATTRIBUTE);
     this.name = attributes.getValue(NAME_ATTRIBUTE);
     this.version = attributes.getValue(VERSION_ATTRIBUTE);
-    this.sonarVersion = attributes.getValue(SONAR_VERSION_ATTRIBUTE);
     this.useChildFirstClassLoader = StringUtils.equalsIgnoreCase(attributes.getValue(USE_CHILD_FIRST_CLASSLOADER), "true");
     String slSupported = attributes.getValue(SONARLINT_SUPPORTED);
     this.sonarLintSupported = slSupported != null ? StringUtils.equalsIgnoreCase(slSupported, "true") : null;
@@ -164,15 +153,6 @@ public final class PluginManifest {
     return this;
   }
 
-  public String getSonarVersion() {
-    return sonarVersion;
-  }
-
-  public PluginManifest setSonarVersion(String sonarVersion) {
-    this.sonarVersion = sonarVersion;
-    return this;
-  }
-
   public String getMainClass() {
     return mainClass;
   }
@@ -184,11 +164,6 @@ public final class PluginManifest {
 
   public String[] getDependencies() {
     return dependencies != null ? dependencies.clone() : null;
-  }
-
-  public PluginManifest setDependencies(@Nullable String[] dependencies) {
-    this.dependencies = dependencies != null ? dependencies.clone() : null;
-    return this;
   }
 
   /**
@@ -230,14 +205,6 @@ public final class PluginManifest {
   }
 
   /**
-   * @since 1.16
-   */
-  public PluginManifest setSonarLintSupported(Boolean sonarLintSupported) {
-    this.sonarLintSupported = sonarLintSupported;
-    return this;
-  }
-
-  /**
    * @since 1.3
    */
   public String getImplementationBuild() {
@@ -255,10 +222,6 @@ public final class PluginManifest {
   @Override
   public String toString() {
     return new ReflectionToStringBuilder(this).toString();
-  }
-
-  public boolean isValid() {
-    return StringUtils.isNotBlank(key) && StringUtils.isNotBlank(version);
   }
 
 }

@@ -37,7 +37,6 @@ import org.sonar.api.batch.sensor.symbol.internal.DefaultSymbolTable;
 import org.sonar.api.rule.RuleKey;
 import org.sonar.api.utils.MessageException;
 import org.sonarsource.sonarlint.core.analyzer.issue.DefaultClientIssue;
-import org.sonarsource.sonarlint.core.analyzer.issue.IssueFilters;
 import org.sonarsource.sonarlint.core.client.api.common.analysis.ClientInputFile;
 import org.sonarsource.sonarlint.core.client.api.common.analysis.HighlightingListener;
 import org.sonarsource.sonarlint.core.client.api.common.analysis.IssueListener;
@@ -49,19 +48,17 @@ public class DefaultSensorStorage implements SensorStorage {
 
   private final ActiveRules activeRules;
   private final Rules rules;
-  private final IssueFilters filters;
   private final IssueListener issueListener;
   private final DefaultAnalysisResult analysisResult;
   private final HighlightingListener highlightingListener;
   private final SymbolRefsListener symbolRefsListener;
 
-  public DefaultSensorStorage(ActiveRules activeRules, Rules rules, IssueFilters filters,
+  public DefaultSensorStorage(ActiveRules activeRules, Rules rules,
                               IssueListener issueListener, DefaultAnalysisResult analysisResult,
                               HighlightingListener highlightingListener,
                               SymbolRefsListener symbolRefsListener) {
     this.activeRules = activeRules;
     this.rules = rules;
-    this.filters = filters;
     this.issueListener = issueListener;
     this.analysisResult = analysisResult;
     this.highlightingListener = highlightingListener;
@@ -91,9 +88,7 @@ public class DefaultSensorStorage implements SensorStorage {
 
     DefaultClientIssue newIssue = new DefaultClientIssue(severity, type, activeRule, rules.find(activeRule.ruleKey()), primaryMessage, issue.primaryLocation().textRange(),
       inputComponent.isFile() ? ((SonarLintInputFile) inputComponent).getClientInputFile() : null, issue.flows());
-    if (filters.accept(inputComponent, newIssue)) {
-      issueListener.handle(newIssue);
-    }
+    issueListener.handle(newIssue);
   }
 
   private DefaultRule validateRule(Issue issue) {

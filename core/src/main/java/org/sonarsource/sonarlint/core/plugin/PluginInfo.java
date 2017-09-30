@@ -315,10 +315,6 @@ public class PluginInfo implements Comparable<PluginInfo> {
     info.setVersion(Version.create(manifest.getVersion()));
 
     // optional fields
-    String minSqVersion = manifest.getSonarVersion();
-    if (minSqVersion != null) {
-      info.setMinimalSqVersion(Version.create(minSqVersion));
-    }
     info.setUseChildFirstClassLoader(manifest.isUseChildFirstClassLoader());
     info.setBasePlugin(manifest.getBasePlugin());
     info.setImplementationBuild(manifest.getImplementationBuild());

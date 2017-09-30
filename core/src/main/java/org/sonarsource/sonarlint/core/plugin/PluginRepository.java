@@ -28,7 +28,7 @@ import org.picocontainer.Startable;
 import org.sonar.api.Plugin;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
-import org.sonarsource.sonarlint.core.client.api.connected.LoadedAnalyzer;
+import org.sonarsource.sonarlint.core.client.api.standalone.LoadedAnalyzer;
 import org.sonarsource.sonarlint.core.container.model.DefaultLoadedAnalyzer;
 
 /**

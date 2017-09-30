@@ -45,7 +45,6 @@ public class StandaloneGlobalConfigurationTest {
   @Test
   public void overrideDirs() throws Exception {
     Path sonarUserHome = temp.newFolder().toPath();
-    Path storage = temp.newFolder().toPath();
     Path work = temp.newFolder().toPath();
     StandaloneGlobalConfiguration config = StandaloneGlobalConfiguration.builder()
       .setSonarLintUserHome(sonarUserHome)

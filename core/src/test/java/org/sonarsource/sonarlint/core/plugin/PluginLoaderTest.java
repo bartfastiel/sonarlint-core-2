@@ -56,19 +56,6 @@ public class PluginLoaderTest {
   }
 
   @Test
-  public void plugin_entry_point_must_be_no_arg_public() {
-    PluginClassLoaderDef def = new PluginClassLoaderDef("fake");
-    def.addMainClass("fake", IncorrectPlugin.class.getName());
-
-    try {
-      loader.instantiatePluginClasses(ImmutableMap.of(def, getClass().getClassLoader()));
-      fail();
-    } catch (IllegalStateException e) {
-      assertThat(e).hasMessage("Fail to instantiate class [org.sonarsource.sonarlint.core.plugin.PluginLoaderTest$IncorrectPlugin] of plugin [fake]");
-    }
-  }
-
-  @Test
   public void define_classloader() throws Exception {
     File jarFile = temp.newFile();
     PluginInfo info = new PluginInfo("foo")
@@ -136,7 +123,7 @@ public class PluginLoaderTest {
   private static class FakePluginExploder extends PluginJarExploder {
     @Override
     public ExplodedPlugin explode(PluginInfo info) {
-      return new ExplodedPlugin(info.getKey(), info.getNonNullJarFile(), Collections.<File>emptyList());
+      return new ExplodedPlugin(info.getKey(), info.getNonNullJarFile(), Collections.emptyList());
     }
   }
 
@@ -151,7 +138,7 @@ public class PluginLoaderTest {
    * No public empty-param constructor
    */
   public static class IncorrectPlugin extends SonarPlugin {
-    public IncorrectPlugin(String s) {
+    public IncorrectPlugin() {
     }
 
     @Override

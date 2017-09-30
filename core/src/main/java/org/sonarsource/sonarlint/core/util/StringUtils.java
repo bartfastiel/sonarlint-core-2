@@ -19,12 +19,8 @@
  */
 package org.sonarsource.sonarlint.core.util;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import javax.annotation.Nullable;
@@ -32,14 +28,6 @@ import javax.annotation.Nullable;
 public class StringUtils {
 
   private StringUtils() {
-  }
-
-  public static String urlEncode(String toEncode) {
-    try {
-      return URLEncoder.encode(toEncode, StandardCharsets.UTF_8.name());
-    } catch (UnsupportedEncodingException e) {
-      throw new IllegalStateException("Should never happen", e);
-    }
   }
 
   public static String describe(Object o) {
@@ -59,15 +47,6 @@ public class StringUtils {
 
   public static boolean isEmpty(@Nullable String str) {
     return str == null || str.isEmpty();
-  }
-
-  public static String md5(String s) {
-    try {
-      return md5(new ByteArrayInputStream(s.getBytes(StandardCharsets.UTF_8)));
-    } catch (IOException e) {
-      // Should never occur
-      throw new IllegalStateException(e);
-    }
   }
 
   public static String md5(InputStream data) throws IOException {

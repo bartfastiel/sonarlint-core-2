@@ -36,10 +36,6 @@ public class RelativePathPredicate extends AbstractFilePredicate {
     this.path = PathUtils.sanitize(path);
   }
 
-  public String path() {
-    return path;
-  }
-
   @Override
   public boolean apply(InputFile f) {
     return path.equals(f.relativePath());

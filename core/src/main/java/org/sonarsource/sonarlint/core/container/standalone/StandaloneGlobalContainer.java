@@ -19,26 +19,17 @@
  */
 package org.sonarsource.sonarlint.core.container.standalone;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 import org.sonar.api.Plugin;
 import org.sonar.api.SonarQubeSide;
 import org.sonar.api.SonarQubeVersion;
-import org.sonar.api.batch.rule.ActiveRule;
 import org.sonar.api.batch.rule.ActiveRules;
 import org.sonar.api.batch.rule.Rules;
-import org.sonar.api.batch.rule.internal.DefaultRule;
 import org.sonar.api.internal.ApiVersion;
 import org.sonar.api.internal.SonarRuntimeImpl;
-import org.sonar.api.rule.RuleKey;
-import org.sonar.api.server.rule.RulesDefinition.Context;
-import org.sonar.api.server.rule.RulesDefinition.Repository;
 import org.sonar.api.utils.System2;
 import org.sonar.api.utils.UriReader;
 import org.sonar.api.utils.Version;
 import org.sonarsource.sonarlint.core.analyzer.sensor.NewSensorsExecutor;
-import org.sonarsource.sonarlint.core.client.api.common.RuleDetails;
 import org.sonarsource.sonarlint.core.client.api.common.analysis.AnalysisResults;
 import org.sonarsource.sonarlint.core.client.api.common.analysis.HighlightingListener;
 import org.sonarsource.sonarlint.core.client.api.common.analysis.IssueListener;
@@ -50,7 +41,6 @@ import org.sonarsource.sonarlint.core.container.analysis.AnalysisContainer;
 import org.sonarsource.sonarlint.core.container.global.ExtensionInstaller;
 import org.sonarsource.sonarlint.core.container.global.GlobalTempFolderProvider;
 import org.sonarsource.sonarlint.core.container.model.DefaultAnalysisResult;
-import org.sonarsource.sonarlint.core.container.model.DefaultRuleDetails;
 import org.sonarsource.sonarlint.core.container.standalone.rule.StandaloneRuleRepositoryContainer;
 import org.sonarsource.sonarlint.core.plugin.DefaultPluginJarExploder;
 import org.sonarsource.sonarlint.core.plugin.PluginCacheLoader;
@@ -64,7 +54,6 @@ public class StandaloneGlobalContainer extends ComponentContainer {
 
   private Rules rules;
   private ActiveRules activeRules;
-  private Context rulesDefinitions;
 
   public static StandaloneGlobalContainer create(StandaloneGlobalConfiguration globalConfig) {
     StandaloneGlobalContainer container = new StandaloneGlobalContainer();
@@ -112,7 +101,6 @@ public class StandaloneGlobalContainer extends ComponentContainer {
     container.execute();
     rules = container.getRules();
     activeRules = container.getActiveRules();
-    rulesDefinitions = container.getRulesDefinitions();
   }
 
   public AnalysisResults analyze(StandaloneAnalysisConfiguration configuration,
@@ -132,25 +120,4 @@ public class StandaloneGlobalContainer extends ComponentContainer {
     analysisContainer.execute();
     return defaultAnalysisResult;
   }
-
-  public RuleDetails getRuleDetails(String ruleKeyStr) {
-    RuleKey ruleKey = RuleKey.parse(ruleKeyStr);
-    DefaultRule rule = (DefaultRule) rules.find(ruleKey);
-    if (rule == null) {
-      throw new IllegalArgumentException("Unable to find rule with key " + ruleKey);
-    }
-    Repository repo = rulesDefinitions.repository(rule.key().repository());
-
-    return new DefaultRuleDetails(ruleKeyStr, rule.name(), rule.description(), rule.severity(), rule.type(),
-      repo.language(), repo.rule(rule.key().rule()).tags(), "");
-  }
-
-  public Collection<String> getActiveRuleKeys() {
-    List<String> result = new ArrayList<>();
-    for (ActiveRule ar : activeRules.findAll()) {
-      result.add(ar.ruleKey().toString());
-    }
-    return result;
-  }
-
 }

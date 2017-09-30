@@ -58,11 +58,6 @@ public interface ClientInputFile {
   }
 
   /**
-   * Allow clients to pass their own object to ease mapping of issues.
-   */
-  <G> G getClientObject();
-  
-  /**
    *  Gets a stream of the contents of the file.
    */
   InputStream inputStream() throws IOException;

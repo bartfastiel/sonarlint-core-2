@@ -21,24 +21,22 @@ package org.sonarsource.sonarlint.core.container.model;
 
 import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
-import org.sonarsource.sonarlint.core.client.api.connected.SonarAnalyzer;
+import org.sonarsource.sonarlint.core.client.api.standalone.SonarAnalyzer;
 
 public class DefaultSonarAnalyzer implements SonarAnalyzer {
   private String key;
   private String filename;
   private String version;
   private String hash;
-  private boolean sonarlintCompatible;
-  private String minimumVersion;
 
   public DefaultSonarAnalyzer(String key, String filename, String hash, @Nullable String version, boolean sonarlintCompatible) {
     this.key = key;
     this.filename = filename;
     this.hash = hash;
     this.version = version;
-    this.sonarlintCompatible = sonarlintCompatible;
   }
 
+  @Override
   public String key() {
     return key;
   }
@@ -47,6 +45,7 @@ public class DefaultSonarAnalyzer implements SonarAnalyzer {
     this.key = key;
   }
 
+  @Override
   public String filename() {
     return filename;
   }
@@ -56,6 +55,7 @@ public class DefaultSonarAnalyzer implements SonarAnalyzer {
   }
 
   @CheckForNull
+  @Override
   public String version() {
     return version;
   }
@@ -64,29 +64,13 @@ public class DefaultSonarAnalyzer implements SonarAnalyzer {
     this.version = version;
   }
 
+  @Override
   public String hash() {
     return hash;
   }
 
   public void hash(String hash) {
     this.hash = hash;
-  }
-
-  public boolean sonarlintCompatible() {
-    return sonarlintCompatible;
-  }
-
-  public void sonarlintCompatible(boolean sonarlintCompatible) {
-    this.sonarlintCompatible = sonarlintCompatible;
-  }
-
-  @CheckForNull
-  public String minimumVersion() {
-    return minimumVersion;
-  }
-
-  public void minimumVersion(@Nullable String minimumVersion) {
-    this.minimumVersion = minimumVersion;
   }
 
 }

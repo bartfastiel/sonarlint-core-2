@@ -64,10 +64,6 @@ public class LanguageDetection {
     languagesToConsider.addAll(patternsByLanguage.keySet());
   }
 
-  Map<String, PathPattern[]> patternsByLanguage() {
-    return patternsByLanguage;
-  }
-
   @CheckForNull
   String language(InputFile inputFile) {
     String detectedLanguage = null;

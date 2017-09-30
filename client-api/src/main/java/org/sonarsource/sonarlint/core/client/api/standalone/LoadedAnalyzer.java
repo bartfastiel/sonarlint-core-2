@@ -17,20 +17,17 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package org.sonarsource.sonarlint.core.client.api.common.analysis;
+package org.sonarsource.sonarlint.core.client.api.standalone;
 
-import java.util.List;
-import org.sonar.api.batch.sensor.highlighting.internal.SyntaxHighlightingRule;
+import javax.annotation.CheckForNull;
 
-public class HighlightingListenerImpl implements HighlightingListener {
-  private List<SyntaxHighlightingRule> highlightingRules;
-
-  @Override
-  public void handle(List<SyntaxHighlightingRule> highlightingRules) {
-    this.highlightingRules = highlightingRules;
-  }
-
-  public List<SyntaxHighlightingRule> highlightingRules() {
-    return highlightingRules;
-  }
+public interface LoadedAnalyzer {
+  String key();
+  
+  String name();
+  
+  @CheckForNull
+  String version();
+  
+  boolean supportsContentStream();
 }

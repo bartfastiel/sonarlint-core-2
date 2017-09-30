@@ -189,12 +189,6 @@ public class ComponentContainer implements ContainerPopulator.Container {
     return this;
   }
 
-  public void addIfMissing(Object object, Class<?> objectType) {
-    if (getComponentByType(objectType) == null) {
-      add(object);
-    }
-  }
-
   public ComponentContainer addSingleton(Object component) {
     return addComponent(component, true);
   }
@@ -279,11 +273,4 @@ public class ComponentContainer implements ContainerPopulator.Container {
     return parent;
   }
 
-  public MutablePicoContainer getPicoContainer() {
-    return pico;
-  }
-
-  public int size() {
-    return pico.getComponentAdapters().size();
-  }
 }

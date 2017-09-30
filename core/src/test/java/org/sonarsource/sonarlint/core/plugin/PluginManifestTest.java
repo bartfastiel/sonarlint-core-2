@@ -61,7 +61,6 @@ public class PluginManifestTest {
     requirePlugins[0] = "requiredPlugin1";
     requirePlugins[1] = "requiredPlugin2";
     manifest.setRequirePlugins(requirePlugins);
-    manifest.setSonarVersion("newSonarVersion");
     manifest.setMainClass("newMainClass");
     manifest.setUseChildFirstClassLoader(false);
     manifest.setBasePlugin("newBasePlugin");
@@ -69,7 +68,6 @@ public class PluginManifestTest {
 
     assertThat(manifest.getName()).isEqualTo("newName");
     assertThat(manifest.getRequirePlugins()).hasSize(2);
-    assertThat(manifest.getSonarVersion()).isEqualTo("newSonarVersion");
     assertThat(manifest.getMainClass()).isEqualTo("newMainClass");
     assertThat(manifest.isUseChildFirstClassLoader()).isFalse();
     assertThat(manifest.getBasePlugin()).isEqualTo("newBasePlugin");

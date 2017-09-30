@@ -149,18 +149,7 @@ public class Version implements Comparable<Version> {
     return new Version(version);
   }
 
-  public static boolean isSnapshot(String version) {
-    return StringUtils.endsWith(version, "SNAPSHOT");
-  }
-
   public Version removeQualifier() {
     return new Version(StringUtils.substringBefore(this.toString(), "-"));
-  }
-
-  /**
-   * Two versions are compatible when they are identical except for qualifier.
-   */
-  public boolean isCompatibleWith(Version version) {
-    return this.removeQualifier().equals(version.removeQualifier());
   }
 }

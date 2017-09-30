@@ -187,6 +187,11 @@ public class ScannerExtensionDictionnaryTest {
     public boolean shouldExecuteOnProject(Project project) {
       return true;
     }
+
+    @Override
+    public String toString() {
+      return "fake:" + super.toString().replaceAll("@", "!");
+    }
   }
 
   @DependsUpon("flag")
@@ -237,6 +242,11 @@ public class ScannerExtensionDictionnaryTest {
 
   private class FakePostJob implements PostJob {
     public void executeOn(Project project, SensorContext context) {
+    }
+
+    @Override
+    public String toString() {
+      return "fake:" + super.toString().replaceAll("@", "!");
     }
   }
 }

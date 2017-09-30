@@ -20,13 +20,8 @@
 package org.sonarsource.sonarlint.core.container;
 
 import org.junit.Test;
-import org.sonar.api.utils.log.Logger;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Matchers.startsWith;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyZeroInteractions;
 
 public class ComponentKeysTest {
 
@@ -42,39 +37,18 @@ public class ComponentKeysTest {
     assertThat(keys.of(new FakeComponent())).isEqualTo("org.sonarsource.sonarlint.core.container.ComponentKeysTest.FakeComponent-fake");
   }
 
-  @Test
-  public void should_log_warning_if_toString_is_not_overridden() {
-    Logger log = mock(Logger.class);
-    keys.of(new Object(), log);
-    verifyZeroInteractions(log);
+  @Test(expected = IllegalArgumentException.class)
+  public void should_throw_if_toString_is_not_overridden() {
+    keys.of(new Object());
 
     // only on non-first runs, to avoid false-positives on singletons
-    keys.of(new Object(), log);
-    verify(log).warn(startsWith("Bad component key"));
-  }
-
-  @Test
-  public void should_generate_unique_key_when_toString_is_not_overridden() {
-    Object key = keys.of(new WrongToStringImpl());
-    assertThat(key).isNotEqualTo(WrongToStringImpl.KEY);
-
-    Object key2 = keys.of(new WrongToStringImpl());
-    assertThat(key2).isNotEqualTo(key);
+    keys.of(new Object());
   }
 
   static class FakeComponent {
     @Override
     public String toString() {
       return "fake";
-    }
-  }
-
-  static class WrongToStringImpl {
-    static final String KEY = "my.Component@123a";
-
-    @Override
-    public String toString() {
-      return KEY;
     }
   }
 }
