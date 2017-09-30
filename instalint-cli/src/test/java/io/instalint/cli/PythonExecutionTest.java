@@ -31,7 +31,7 @@ public class PythonExecutionTest extends AnalyzerExecutionTest {
 
   @Ignore
   @Override
-  public void verify_failed_file_count() {
+  public void should_report_failed_files() {
     // TODO SonarPython doesn't report analysis errors !!! :-(
   }
 }

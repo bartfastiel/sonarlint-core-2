@@ -38,36 +38,14 @@ public abstract class AnalyzerExecutionTest {
   static String analyzerFilesExtension = "TO SET IN SUB-CLASS";
 
   static class Result {
+    private int fileCount;
+    private int failedFileCount;
     private int issueCount;
     private Set<HighlightingImpl> highlightings = new HashSet<>();
-    private int failedFileCount;
-    private int fileCount;
     private Map<TextRange, Set<TextRange>> symbolRefs = new HashMap<>();
 
     public Result issueCount(int issueCount) {
       this.issueCount = issueCount;
-      return this;
-    }
-
-    public int issueCount() {
-      return issueCount;
-    }
-
-    public Result parseErrorCount(int i) {
-      return this;
-    }
-
-    private Set<HighlightingImpl> highlightings() {
-      return highlightings;
-    }
-
-    public Result highlight(TypeOfText textType, TextRange range) {
-      highlightings.add(new HighlightingImpl(textType, range));
-      return this;
-    }
-
-    public Result fileCount(int fileCount) {
-      this.fileCount = fileCount;
       return this;
     }
 
@@ -82,6 +60,24 @@ public abstract class AnalyzerExecutionTest {
 
     public int failedFileCount() {
       return failedFileCount;
+    }
+
+    public int issueCount() {
+      return issueCount;
+    }
+
+    public Result fileCount(int fileCount) {
+      this.fileCount = fileCount;
+      return this;
+    }
+
+    private Set<HighlightingImpl> highlightings() {
+      return highlightings;
+    }
+
+    public Result highlight(TypeOfText textType, TextRange range) {
+      highlightings.add(new HighlightingImpl(textType, range));
+      return this;
     }
 
     private Map<TextRange, Set<TextRange>> symbolRefs() {
@@ -159,21 +155,19 @@ public abstract class AnalyzerExecutionTest {
 
     AtomicInteger issueCount = new AtomicInteger();
     IssueListener issueListener = issue -> issueCount.incrementAndGet();
-    LogOutput logOutput = (formattedMessage, level) -> {
-//      System.out.println("log: " + formattedMessage);
-    };
+    LogOutput logOutput = (formattedMessage, level) -> { };
 
     Result expected = expected();
 
-    HighlightingListener highlightingListener = highlighting -> {
-      highlighting.forEach(hl -> expected.highlight(hl.getTextType(), hl.range()));
-    };
+    HighlightingListener highlightingListener =
+      highlighting -> highlighting.forEach(hl -> expected.highlight(hl.getTextType(), hl.range()));
 
-    SymbolRefsListener symbolRefsListener = referencesBySymbol -> {
-      referencesBySymbol.forEach(expected::symbolRef);
-    };
+    SymbolRefsListener symbolRefsListener =
+      referencesBySymbol -> referencesBySymbol.forEach(expected::symbolRef);
 
-    AnalysisResults results = engine.analyze(config, issueListener,
+    AnalysisResults results = engine.analyze(
+      config,
+      issueListener,
       highlightingListener,
       symbolRefsListener,
       logOutput);
@@ -186,13 +180,13 @@ public abstract class AnalyzerExecutionTest {
   }
 
   @Test
-  public void verify_file_count() {
+  public void should_report_analyzed_files() {
     assertThat(result.fileCount()).isGreaterThan(0);
     assertThat(result.fileCount()).isEqualTo(expected.fileCount());
   }
 
   @Test
-  public void verify_failed_file_count() {
+  public void should_report_failed_files() {
     assertThat(result.failedFileCount()).isGreaterThan(0);
     assertThat(result.failedFileCount()).isEqualTo(expected.failedFileCount());
   }
@@ -214,9 +208,4 @@ public abstract class AnalyzerExecutionTest {
     assertThat(expected.symbolRefs()).isNotEmpty();
     assertThat(result.symbolRefs()).containsAllEntriesOf(expected.symbolRefs());
   }
-
-//  @Test
-//  public void should_raise_on_parse_error() {
-//    assertThat(result.parseErrors()).isEqualTo(expected.parseErrors());
-//  }
 }
