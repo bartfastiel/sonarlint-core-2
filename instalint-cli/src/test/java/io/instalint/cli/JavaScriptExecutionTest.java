@@ -11,6 +11,7 @@ public class JavaScriptExecutionTest extends AnalyzerExecutionTest {
     analyzerFilesExtension = "js";
 
     expected = expected()
+      .fileCount(2)
       .issueCount(12)
       .highlight(TypeOfText.KEYWORD, range(1, 0, 1, 3))
       .highlight(TypeOfText.KEYWORD, range(2, 0, 2, 3))

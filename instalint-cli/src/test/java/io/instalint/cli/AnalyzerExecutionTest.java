@@ -76,6 +76,10 @@ public abstract class AnalyzerExecutionTest {
       return this;
     }
 
+    public int fileCount() {
+      return fileCount;
+    }
+
     private Map<TextRange, Set<TextRange>> symbolRefs() {
       return symbolRefs;
     }
@@ -178,17 +182,26 @@ public abstract class AnalyzerExecutionTest {
   }
 
   @Test
+  public void verify_file_count() {
+    assertThat(result.fileCount()).isGreaterThan(0);
+    assertThat(result.fileCount()).isEqualTo(expected.fileCount());
+  }
+
+  @Test
   public void should_report_issues() {
+    assertThat(result.issueCount()).isGreaterThan(0);
     assertThat(result.issueCount()).isEqualTo(expected.issueCount());
   }
 
   @Test
   public void should_report_syntax_highlights() {
+    assertThat(expected.highlightings()).isNotEmpty();
     assertThat(result.highlightings()).containsAll(expected.highlightings());
   }
 
   @Test
   public void should_report_symbol_refs() {
+    assertThat(expected.symbolRefs()).isNotEmpty();
     assertThat(result.symbolRefs()).containsAllEntriesOf(expected.symbolRefs());
   }
 
