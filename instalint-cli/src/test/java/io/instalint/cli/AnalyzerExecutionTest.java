@@ -66,11 +66,6 @@ public abstract class AnalyzerExecutionTest {
       return this;
     }
 
-    public Result failedFileCount(int failedFileCount) {
-      this.failedFileCount = failedFileCount;
-      return this;
-    }
-
     public Result fileCount(int fileCount) {
       this.fileCount = fileCount;
       return this;
@@ -78,6 +73,15 @@ public abstract class AnalyzerExecutionTest {
 
     public int fileCount() {
       return fileCount;
+    }
+
+    public Result failedFileCount(int failedFileCount) {
+      this.failedFileCount = failedFileCount;
+      return this;
+    }
+
+    public int failedFileCount() {
+      return failedFileCount;
     }
 
     private Map<TextRange, Set<TextRange>> symbolRefs() {
@@ -185,6 +189,12 @@ public abstract class AnalyzerExecutionTest {
   public void verify_file_count() {
     assertThat(result.fileCount()).isGreaterThan(0);
     assertThat(result.fileCount()).isEqualTo(expected.fileCount());
+  }
+
+  @Test
+  public void verify_failed_file_count() {
+    assertThat(result.failedFileCount()).isGreaterThan(0);
+    assertThat(result.failedFileCount()).isEqualTo(expected.failedFileCount());
   }
 
   @Test

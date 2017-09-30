@@ -12,8 +12,8 @@ public class PythonExecutionTest extends AnalyzerExecutionTest {
     analyzerFilesExtension = "py";
 
     expected = expected()
-      .issueCount(1)
       .fileCount(2)
+      .issueCount(1)
       .highlight(TypeOfText.KEYWORD, range(1, 0, 1, 3))
       .highlight(TypeOfText.KEYWORD, range(2, 4, 2, 8))
       .highlight(TypeOfText.KEYWORD, range(4, 0, 4, 3))
@@ -27,5 +27,11 @@ public class PythonExecutionTest extends AnalyzerExecutionTest {
   @Override
   public void should_report_symbol_refs() {
     // TODO SonarPython doesn't report symbol refs!!! :-(
+  }
+
+  @Ignore
+  @Override
+  public void verify_failed_file_count() {
+    // TODO SonarPython doesn't report analysis errors !!! :-(
   }
 }

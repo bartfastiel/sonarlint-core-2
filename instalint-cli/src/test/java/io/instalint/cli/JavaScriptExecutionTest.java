@@ -12,7 +12,8 @@ public class JavaScriptExecutionTest extends AnalyzerExecutionTest {
 
     expected = expected()
       .fileCount(2)
-      .issueCount(12)
+      .failedFileCount(1)
+      .issueCount(3)
       .highlight(TypeOfText.KEYWORD, range(1, 0, 1, 3))
       .highlight(TypeOfText.KEYWORD, range(2, 0, 2, 3))
       .highlight(TypeOfText.KEYWORD, range(2, 7, 2, 9))

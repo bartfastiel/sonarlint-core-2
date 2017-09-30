@@ -1,3 +1,4 @@
+<?php
 LICENSE.txt
 client-api
 core

@@ -12,6 +12,7 @@ public class PhpExecutionTest extends AnalyzerExecutionTest {
 
     expected = expected()
       .fileCount(3)
+      .failedFileCount(1)
       .issueCount(8)
       .highlight(TypeOfText.COMMENT, range(2, 0, 2, 21))
       .symbolRef(range(17, 2, 17, 4),

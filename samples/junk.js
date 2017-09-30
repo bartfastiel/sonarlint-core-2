@@ -1,3 +1,4 @@
+function() {
 LICENSE.txt
 client-api
 core
