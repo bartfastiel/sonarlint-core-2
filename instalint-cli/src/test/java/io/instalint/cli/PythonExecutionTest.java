@@ -16,6 +16,7 @@ public class PythonExecutionTest extends AnalyzerExecutionTest {
       .highlight(TypeOfText.KEYWORD, range(2, 4, 2, 8))
       .highlight(TypeOfText.KEYWORD, range(4, 0, 4, 3))
       .highlight(TypeOfText.KEYWORD, range(5, 4, 5, 10))
+      // TODO SonarPython doesn't report symbol refs!!! :-(
       ;
 
     result = analyzerHelper();

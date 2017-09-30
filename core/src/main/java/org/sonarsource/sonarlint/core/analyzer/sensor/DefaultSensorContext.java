@@ -38,6 +38,7 @@ import org.sonar.api.batch.sensor.internal.SensorStorage;
 import org.sonar.api.batch.sensor.issue.NewIssue;
 import org.sonar.api.batch.sensor.issue.internal.DefaultIssue;
 import org.sonar.api.batch.sensor.measure.NewMeasure;
+import org.sonar.api.batch.sensor.symbol.NewSymbol;
 import org.sonar.api.batch.sensor.symbol.NewSymbolTable;
 import org.sonar.api.batch.sensor.symbol.internal.DefaultSymbolTable;
 import org.sonar.api.config.Settings;
@@ -125,13 +126,7 @@ public class DefaultSensorContext implements SensorContext {
 
   @Override
   public NewSymbolTable newSymbolTable() {
-    return new DefaultSymbolTable(sensorStorage) {
-      @Override
-      public DefaultSymbolTable onFile(InputFile inputFile) {
-        System.out.println("symbols! " + inputFile);
-        return super.onFile(inputFile);
-      }
-    };
+    return new DefaultSymbolTable(sensorStorage);
   }
 
   @Override

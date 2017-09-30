@@ -18,7 +18,15 @@ public class JavaScriptExecutionTest extends AnalyzerExecutionTest {
       .highlight(TypeOfText.CONSTANT, range(1, 14, 1, 15))
       .highlight(TypeOfText.CONSTANT, range(1, 11, 1, 12))
       .highlight(TypeOfText.CONSTANT, range(1, 17, 1, 18))
-      ;
+      .symbolRef(range(2, 15, 2, 16),
+        ranges(range(4, 0, 4, 1)))
+      .symbolRef(range(1, 4, 1, 7),
+        ranges(range(2, 10, 2, 13)))
+      .symbolRef(range(2, 5, 2, 6),
+        ranges(range(3, 16, 3, 17)))
+      .symbolRef(range(3, 4, 3, 11),
+        ranges())
+    ;
 
     result = analyzerHelper();
   }

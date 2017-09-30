@@ -27,6 +27,7 @@ import org.sonarsource.sonarlint.core.client.api.common.RuleDetails;
 import org.sonarsource.sonarlint.core.client.api.common.analysis.AnalysisResults;
 import org.sonarsource.sonarlint.core.client.api.common.analysis.HighlightingListener;
 import org.sonarsource.sonarlint.core.client.api.common.analysis.IssueListener;
+import org.sonarsource.sonarlint.core.client.api.common.analysis.SymbolRefsListener;
 import org.sonarsource.sonarlint.core.client.api.exceptions.SonarLintWrappedException;
 import org.sonarsource.sonarlint.core.client.api.standalone.StandaloneAnalysisConfiguration;
 import org.sonarsource.sonarlint.core.client.api.standalone.StandaloneGlobalConfiguration;
@@ -78,6 +79,7 @@ public final class StandaloneSonarLintEngineImpl implements StandaloneSonarLintE
   public AnalysisResults analyze(StandaloneAnalysisConfiguration configuration,
                                  IssueListener issueListener,
                                  HighlightingListener highlightingListener,
+                                 SymbolRefsListener symbolRefsListener,
                                  @Nullable LogOutput logOutput) {
     checkNotNull(configuration);
     checkNotNull(issueListener);
@@ -86,7 +88,7 @@ public final class StandaloneSonarLintEngineImpl implements StandaloneSonarLintE
     SonarLintLogging.setErrorHandler(errorHandler);
     rwl.readLock().lock();
     try {
-      AnalysisResults results = globalContainer.analyze(configuration, issueListener, highlightingListener);
+      AnalysisResults results = globalContainer.analyze(configuration, issueListener, highlightingListener, symbolRefsListener);
       errorHandler.getErrorFiles().forEach(results.failedAnalysisFiles()::add);
       return results;
     } catch (RuntimeException e) {

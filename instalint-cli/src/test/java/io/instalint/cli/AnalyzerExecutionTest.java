@@ -6,6 +6,7 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -24,13 +25,14 @@ import org.sonarsource.sonarlint.core.client.api.common.analysis.AnalysisResults
 import org.sonarsource.sonarlint.core.client.api.common.analysis.ClientInputFile;
 import org.sonarsource.sonarlint.core.client.api.common.analysis.HighlightingListener;
 import org.sonarsource.sonarlint.core.client.api.common.analysis.IssueListener;
+import org.sonarsource.sonarlint.core.client.api.common.analysis.SymbolRefsListener;
 import org.sonarsource.sonarlint.core.client.api.standalone.StandaloneAnalysisConfiguration;
 import org.sonarsource.sonarlint.core.client.api.standalone.StandaloneGlobalConfiguration;
 import org.sonarsource.sonarlint.core.client.api.standalone.StandaloneSonarLintEngine;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class AnalyzerExecutionTest {
+public abstract class AnalyzerExecutionTest {
 
   static String analyzerFilename = "TO SET IN SUB-CLASS";
   static String analyzerFilesExtension = "TO SET IN SUB-CLASS";
@@ -40,6 +42,7 @@ public class AnalyzerExecutionTest {
     private Set<HighlightingImpl> highlightings = new HashSet<>();
     private int failedFileCount;
     private int fileCount;
+    private Map<TextRange, Set<TextRange>> symbolRefs = new HashMap<>();
 
     public Result issueCount(int issueCount) {
       this.issueCount = issueCount;
@@ -50,16 +53,12 @@ public class AnalyzerExecutionTest {
       return issueCount;
     }
 
-    private Set<HighlightingImpl> highlightings() {
-      return highlightings;
-    }
-
-    public Result symbolRef(int i) {
-      return this;
-    }
-
     public Result parseErrorCount(int i) {
       return this;
+    }
+
+    private Set<HighlightingImpl> highlightings() {
+      return highlightings;
     }
 
     public Result highlight(TypeOfText textType, TextRange range) {
@@ -74,6 +73,15 @@ public class AnalyzerExecutionTest {
 
     public Result fileCount(int fileCount) {
       this.fileCount = fileCount;
+      return this;
+    }
+
+    private Map<TextRange, Set<TextRange>> symbolRefs() {
+      return symbolRefs;
+    }
+
+    public Result symbolRef(TextRange sym, Set<TextRange> refs) {
+      symbolRefs.put(sym, refs);
       return this;
     }
   }
@@ -103,6 +111,10 @@ public class AnalyzerExecutionTest {
       new DefaultTextPointer(startLine, startLineOffset),
       new DefaultTextPointer(endLine, endLineOffset)
     );
+  }
+
+  static Set<TextRange> ranges(TextRange...ranges) {
+    return new HashSet<>(Arrays.asList(ranges));
   }
 
   private static Path newDir(Path path) throws IOException {
@@ -149,7 +161,14 @@ public class AnalyzerExecutionTest {
       highlighting.forEach(hl -> expected.highlight(hl.getTextType(), hl.range()));
     };
 
-    AnalysisResults results = engine.analyze(config, issueListener, highlightingListener, logOutput);
+    SymbolRefsListener symbolRefsListener = referencesBySymbol -> {
+      referencesBySymbol.forEach(expected::symbolRef);
+    };
+
+    AnalysisResults results = engine.analyze(config, issueListener,
+      highlightingListener,
+      symbolRefsListener,
+      logOutput);
 
     return expected
       .issueCount(issueCount.get())
@@ -165,14 +184,14 @@ public class AnalyzerExecutionTest {
 
   @Test
   public void should_report_syntax_highlights() {
-    assertThat(result.highlightings()).isEqualTo(expected.highlightings());
+    assertThat(result.highlightings()).containsAll(expected.highlightings());
   }
 
-//  @Test
-//  public void should_report_symbol_refs() {
-//    assertThat(result.symbolRefs()).isEqualTo(expected.symbolRefs());
-//  }
-//
+  @Test
+  public void should_report_symbol_refs() {
+    assertThat(result.symbolRefs()).containsAllEntriesOf(expected.symbolRefs());
+  }
+
 //  @Test
 //  public void should_raise_on_parse_error() {
 //    assertThat(result.parseErrors()).isEqualTo(expected.parseErrors());

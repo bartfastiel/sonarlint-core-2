@@ -11,8 +11,12 @@ public class PhpExecutionTest extends AnalyzerExecutionTest {
     analyzerFilesExtension = "php";
 
     expected = expected()
-      .issueCount(1)
+      .issueCount(8)
       .highlight(TypeOfText.COMMENT, range(2, 0, 2, 21))
+      .symbolRef(range(17, 2, 17, 4),
+        ranges())
+      .symbolRef(range(16, 9, 16, 10),
+        ranges())
       ;
 
     result = analyzerHelper();

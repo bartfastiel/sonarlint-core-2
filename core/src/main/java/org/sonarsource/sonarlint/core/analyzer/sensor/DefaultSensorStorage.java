@@ -20,11 +20,7 @@
 package org.sonarsource.sonarlint.core.analyzer.sensor;
 
 import com.google.common.base.Strings;
-import java.util.Map;
-import java.util.Set;
 import org.sonar.api.batch.fs.InputComponent;
-import org.sonar.api.batch.fs.TextRange;
-import org.sonar.api.batch.fs.internal.DefaultInputFile;
 import org.sonar.api.batch.rule.ActiveRule;
 import org.sonar.api.batch.rule.ActiveRules;
 import org.sonar.api.batch.rule.Rule;
@@ -39,13 +35,13 @@ import org.sonar.api.batch.sensor.issue.Issue;
 import org.sonar.api.batch.sensor.measure.Measure;
 import org.sonar.api.batch.sensor.symbol.internal.DefaultSymbolTable;
 import org.sonar.api.rule.RuleKey;
-import org.sonar.api.source.Symbol;
 import org.sonar.api.utils.MessageException;
 import org.sonarsource.sonarlint.core.analyzer.issue.DefaultClientIssue;
 import org.sonarsource.sonarlint.core.analyzer.issue.IssueFilters;
 import org.sonarsource.sonarlint.core.client.api.common.analysis.ClientInputFile;
 import org.sonarsource.sonarlint.core.client.api.common.analysis.HighlightingListener;
 import org.sonarsource.sonarlint.core.client.api.common.analysis.IssueListener;
+import org.sonarsource.sonarlint.core.client.api.common.analysis.SymbolRefsListener;
 import org.sonarsource.sonarlint.core.container.analysis.filesystem.SonarLintInputFile;
 import org.sonarsource.sonarlint.core.container.model.DefaultAnalysisResult;
 
@@ -57,16 +53,19 @@ public class DefaultSensorStorage implements SensorStorage {
   private final IssueListener issueListener;
   private final DefaultAnalysisResult analysisResult;
   private final HighlightingListener highlightingListener;
+  private final SymbolRefsListener symbolRefsListener;
 
   public DefaultSensorStorage(ActiveRules activeRules, Rules rules, IssueFilters filters,
                               IssueListener issueListener, DefaultAnalysisResult analysisResult,
-                              HighlightingListener highlightingListener) {
+                              HighlightingListener highlightingListener,
+                              SymbolRefsListener symbolRefsListener) {
     this.activeRules = activeRules;
     this.rules = rules;
     this.filters = filters;
     this.issueListener = issueListener;
     this.analysisResult = analysisResult;
     this.highlightingListener = highlightingListener;
+    this.symbolRefsListener = symbolRefsListener;
   }
 
   @Override
@@ -114,10 +113,6 @@ public class DefaultSensorStorage implements SensorStorage {
     highlightingListener.handle(highlighting.getSyntaxHighlightingRuleSet());
   }
 
-  public void store(DefaultInputFile inputFile, Map<Symbol, Set<TextRange>> referencesBySymbol) {
-    // NO-OP
-  }
-
   @Override
   public void store(DefaultCoverage defaultCoverage) {
     // NO-OP
@@ -130,7 +125,7 @@ public class DefaultSensorStorage implements SensorStorage {
 
   @Override
   public void store(DefaultSymbolTable symbolTable) {
-    // NO-OP
+    symbolRefsListener.handle(symbolTable.getReferencesBySymbol());
   }
 
   @Override

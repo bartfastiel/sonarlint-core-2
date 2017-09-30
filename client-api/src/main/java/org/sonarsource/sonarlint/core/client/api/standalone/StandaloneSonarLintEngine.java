@@ -26,6 +26,7 @@ import org.sonarsource.sonarlint.core.client.api.common.analysis.AnalysisResults
 import org.sonarsource.sonarlint.core.client.api.common.analysis.HighlightingListener;
 import org.sonarsource.sonarlint.core.client.api.common.analysis.Issue;
 import org.sonarsource.sonarlint.core.client.api.common.analysis.IssueListener;
+import org.sonarsource.sonarlint.core.client.api.common.analysis.SymbolRefsListener;
 
 /**
  * Entry point for SonarLint in standalone mode.
@@ -49,6 +50,7 @@ public interface StandaloneSonarLintEngine {
   AnalysisResults analyze(StandaloneAnalysisConfiguration configuration,
                           IssueListener issueListener,
                           HighlightingListener highlightingListener,
+                          SymbolRefsListener symbolRefsListener,
                           @Nullable LogOutput logOutput);
 
 }
