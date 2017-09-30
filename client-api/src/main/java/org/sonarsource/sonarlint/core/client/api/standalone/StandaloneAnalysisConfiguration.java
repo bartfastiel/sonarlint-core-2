@@ -32,10 +32,8 @@ public class StandaloneAnalysisConfiguration {
   private final Iterable<ClientInputFile> inputFiles;
   private final Map<String, String> extraProperties;
   private final Path workDir;
-  private final Path baseDir;
 
-  public StandaloneAnalysisConfiguration(Path baseDir, Path workDir, Iterable<ClientInputFile> inputFiles, Map<String, String> extraProperties) {
-    this.baseDir = baseDir;
+  public StandaloneAnalysisConfiguration(Path workDir, Iterable<ClientInputFile> inputFiles, Map<String, String> extraProperties) {
     this.workDir = workDir;
     this.inputFiles = inputFiles;
     this.extraProperties = new LinkedHashMap<>(extraProperties);
@@ -43,10 +41,6 @@ public class StandaloneAnalysisConfiguration {
 
   public Map<String, String> extraProperties() {
     return Collections.unmodifiableMap(extraProperties);
-  }
-
-  public Path baseDir() {
-    return baseDir;
   }
 
   /**
@@ -64,7 +58,6 @@ public class StandaloneAnalysisConfiguration {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("[\n");
-    sb.append("  baseDir: ").append(baseDir).append("\n");
     sb.append("  workDir: ").append(workDir).append("\n");
     sb.append("  extraProperties: ").append(extraProperties).append("\n");
     sb.append("  inputFiles: [\n");

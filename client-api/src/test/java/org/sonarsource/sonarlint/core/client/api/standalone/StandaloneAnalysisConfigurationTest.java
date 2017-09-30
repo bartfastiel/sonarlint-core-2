@@ -49,11 +49,9 @@ public class StandaloneAnalysisConfigurationTest {
     ClientInputFile inputFile = new TestClientInputFile(srcFile1, false, StandardCharsets.UTF_8, null);
     ClientInputFile inputFileWithLanguage = new TestClientInputFile(srcFile2, false, StandardCharsets.UTF_8, "java");
     ClientInputFile testInputFile = new TestClientInputFile(srcFile3, true, StandardCharsets.UTF_8, "php");
-    Path baseDir = temp.newFolder().toPath();
     Path workDir = temp.newFolder().toPath();
-    StandaloneAnalysisConfiguration config = new StandaloneAnalysisConfiguration(baseDir, workDir, Arrays.asList(inputFile, inputFileWithLanguage, testInputFile), props);
+    StandaloneAnalysisConfiguration config = new StandaloneAnalysisConfiguration(workDir, Arrays.asList(inputFile, inputFileWithLanguage, testInputFile), props);
     assertThat(config.toString()).isEqualTo("[\n" +
-      "  baseDir: " + baseDir.toString() + "\n" +
       "  workDir: " + workDir.toString() + "\n" +
       "  extraProperties: {sonar.java.libraries=foo bar}\n" +
       "  inputFiles: [\n" +
@@ -62,7 +60,6 @@ public class StandaloneAnalysisConfigurationTest {
       "    " + srcFile3.toString() + " [test] [php]\n" +
       "  ]\n" +
       "]\n");
-    assertThat(config.baseDir()).isEqualTo(baseDir);
     assertThat(config.workDir()).isEqualTo(workDir);
     assertThat(config.inputFiles()).containsExactly(inputFile, inputFileWithLanguage, testInputFile);
     assertThat(config.extraProperties()).containsExactly(entry("sonar.java.libraries", "foo bar"));

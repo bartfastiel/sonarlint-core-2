@@ -145,13 +145,12 @@ public abstract class AnalyzerExecutionTest {
     StandaloneSonarLintEngine engine = new StandaloneSonarLintEngineImpl(globalConfig);
 
     Path tmp = newTempDir();
-    Path baseDir = newDir(tmp.resolve("base"));
     Path workDir = newDir(tmp.resolve("work"));
     InputFileFinder inputFileFinder = new InputFileFinder("**/*." + analyzerFilesExtension, null, null, Charset.defaultCharset());
     Iterable<ClientInputFile> inputFiles = inputFileFinder.collect(Paths.get("../samples").toAbsolutePath());
 
     Map<String, String> extraProperties = new HashMap<>();
-    StandaloneAnalysisConfiguration config = new StandaloneAnalysisConfiguration(baseDir, workDir, inputFiles, extraProperties);
+    StandaloneAnalysisConfiguration config = new StandaloneAnalysisConfiguration(workDir, inputFiles, extraProperties);
 
     AtomicInteger issueCount = new AtomicInteger();
     IssueListener issueListener = issue -> issueCount.incrementAndGet();
