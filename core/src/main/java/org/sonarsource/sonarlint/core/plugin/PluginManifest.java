@@ -26,7 +26,6 @@ import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 

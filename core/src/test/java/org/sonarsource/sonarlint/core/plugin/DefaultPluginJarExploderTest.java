@@ -22,7 +22,6 @@ package org.sonarsource.sonarlint.core.plugin;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
-
 import org.apache.commons.io.FileUtils;
 import org.junit.Before;
 import org.junit.ClassRule;

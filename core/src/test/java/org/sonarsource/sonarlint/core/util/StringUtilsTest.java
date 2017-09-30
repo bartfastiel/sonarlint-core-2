@@ -19,10 +19,10 @@
  */
 package org.sonarsource.sonarlint.core.util;
 
+import org.junit.Test;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.sonarsource.sonarlint.core.util.StringUtils.isEmpty;
-
-import org.junit.Test;
 
 public class StringUtilsTest {
 

@@ -20,9 +20,7 @@
 package org.sonarsource.sonarlint.core.container.model;
 
 import java.util.Set;
-
 import javax.annotation.Nullable;
-
 import org.sonarsource.sonarlint.core.client.api.common.RuleDetails;
 
 public class DefaultRuleDetails implements RuleDetails {

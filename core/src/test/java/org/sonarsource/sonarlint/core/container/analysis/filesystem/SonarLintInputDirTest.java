@@ -19,15 +19,14 @@
  */
 package org.sonarsource.sonarlint.core.container.analysis.filesystem;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
-
 import java.nio.file.Path;
 import java.nio.file.Paths;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.sonar.api.utils.PathUtils;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
 
 public class SonarLintInputDirTest {
   private SonarLintInputDir inputDir;

@@ -21,7 +21,6 @@ package org.sonarsource.sonarlint.core.analyzer.issue;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
 import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
 import org.sonar.api.batch.fs.TextRange;

@@ -19,22 +19,19 @@
  */
 package org.sonarsource.sonarlint.core.container.analysis.filesystem;
 
+import com.google.common.base.Joiner;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.annotation.CheckForNull;
-
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.fs.internal.PathPattern;
 import org.sonar.api.utils.MessageException;
-
-import com.google.common.base.Joiner;
 
 /**
  * Detect language of a source file based on its suffix and configured patterns.

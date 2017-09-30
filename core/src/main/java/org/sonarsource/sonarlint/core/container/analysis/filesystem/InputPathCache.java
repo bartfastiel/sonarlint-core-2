@@ -19,21 +19,19 @@
  */
 package org.sonarsource.sonarlint.core.container.analysis.filesystem;
 
+import com.google.common.collect.LinkedHashMultimap;
+import com.google.common.collect.SetMultimap;
 import java.nio.file.Path;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeSet;
-
 import org.sonar.api.batch.fs.InputDir;
 import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.batch.fs.internal.FileExtensionPredicate;
 import org.sonar.api.batch.fs.internal.FilenamePredicate;
 import org.sonarsource.api.sonarlint.SonarLintSide;
-
-import com.google.common.collect.LinkedHashMultimap;
-import com.google.common.collect.SetMultimap;
 
 @SonarLintSide
 public class InputPathCache extends DefaultFileSystem.Cache {

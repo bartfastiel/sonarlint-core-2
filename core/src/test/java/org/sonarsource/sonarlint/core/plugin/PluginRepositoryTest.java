@@ -19,17 +19,16 @@
  */
 package org.sonarsource.sonarlint.core.plugin;
 
+import java.util.Collections;
+import java.util.Map;
+import org.junit.Before;
+import org.junit.Test;
+import org.sonar.api.Plugin;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
-import java.util.Collections;
-import java.util.Map;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.sonar.api.Plugin;
 
 public class PluginRepositoryTest {
   private PluginRepository pluginRepository;

@@ -24,6 +24,7 @@ import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.classic.spi.IThrowableProxy;
 import ch.qos.logback.classic.spi.ThrowableProxy;
 import ch.qos.logback.core.Appender;
+import java.io.IOException;
 import org.junit.Before;
 import org.junit.Test;
 import org.sonarsource.sonarlint.core.client.api.common.LogOutput;
@@ -36,8 +37,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
-
-import java.io.IOException;
 
 public class LogCallbackAppenderTest {
   private LogOutput listener;

@@ -20,7 +20,6 @@
 package org.sonarsource.sonarlint.core.container.analysis.filesystem;
 
 import com.google.common.primitives.Ints;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;

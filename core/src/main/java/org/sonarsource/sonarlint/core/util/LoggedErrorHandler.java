@@ -23,7 +23,6 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.StreamSupport;
-
 import org.sonarsource.sonarlint.core.client.api.common.analysis.ClientInputFile;
 
 public class LoggedErrorHandler {
