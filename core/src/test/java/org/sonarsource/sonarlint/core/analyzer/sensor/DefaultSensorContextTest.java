@@ -78,8 +78,6 @@ public class DefaultSensorContextTest {
 
     // no ops
     assertThat(ctx.newCpdTokens()).isInstanceOf(NoOpNewCpdTokens.class);
-    assertThat(ctx.newSymbolTable()).isInstanceOf(NoOpNewSymbolTable.class);
-    assertThat(ctx.newHighlighting()).isInstanceOf(NoOpNewHighlighting.class);
     assertThat(ctx.newMeasure()).isInstanceOf(NoOpNewMeasure.class);
     assertThat(ctx.newCoverage()).isInstanceOf(NoOpNewCoverage.class);
     assertThat(ctx.isCancelled()).isFalse();

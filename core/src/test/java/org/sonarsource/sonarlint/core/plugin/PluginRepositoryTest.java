@@ -50,12 +50,6 @@ public class PluginRepositoryTest {
     test(info, true);
   }
 
-  @Test
-  public void testAnalyzerWithoutVersion() {
-    PluginInfo info = new PluginInfo("key");
-    test(info, false);
-  }
-
   private void test(PluginInfo info, boolean assertSupportsStream) {
     Plugin plugin = mock(Plugin.class);
     Map<String, PluginInfo> infos = Collections.singletonMap("key", info);

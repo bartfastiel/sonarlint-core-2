@@ -195,14 +195,6 @@ public class ComponentContainer implements ContainerPopulator.Container {
     }
   }
 
-  @Override
-  public ComponentContainer addSingletons(Iterable<?> components) {
-    for (Object component : components) {
-      addSingleton(component);
-    }
-    return this;
-  }
-
   public ComponentContainer addSingleton(Object component) {
     return addComponent(component, true);
   }

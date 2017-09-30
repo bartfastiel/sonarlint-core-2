@@ -19,14 +19,9 @@
  */
 package org.sonarsource.sonarlint.core.container;
 
-@FunctionalInterface
 public interface ContainerPopulator<T extends ContainerPopulator.Container> {
-  void populateContainer(T container);
-
   interface Container {
     Container add(Object... objects);
-
-    Container addSingletons(Iterable<?> components);
 
     <T> T getComponentByType(Class<T> type);
   }
