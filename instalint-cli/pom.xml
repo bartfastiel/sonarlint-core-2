@@ -6,7 +6,9 @@
     <artifactId>instalint</artifactId>
     <version>0.1-SNAPSHOT</version>
   </parent>
+
   <artifactId>instalint-cli</artifactId>
+  <name>InstaLint CLI</name>
 
   <dependencies>
     <dependency>
